@@ -83,4 +83,14 @@ contract PersonalRegistry {
     function getTotalUsers() external view returns (uint256) {
         return registeredUsers.length;
     }
+
+    /**
+     * @dev Get user address by index (for iteration)
+     * @param _index Index in the registeredUsers array
+     * @return address of the user at given index
+     */
+    function getUserByIndex(uint256 _index) external view returns (address) {
+        require(_index < registeredUsers.length, "Index out of bounds");
+        return registeredUsers[_index];
+    }
 }
