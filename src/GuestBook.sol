@@ -105,4 +105,25 @@ contract Guestbook {
 
         return result;
     }
+
+    /**
+     * @dev Get messages in a specific range
+     * @param _start Start index (inclusive)
+     * @param _end End index (exclusive)
+     * @return Array of Message structs
+     */
+    function getMessagesInRange(uint256 _start, uint256 _end) external view returns (Message[] memory) {
+        require(_start < messages.length, "Start index out of bounds");
+        require(_end <= messages.length, "End index out of bounds");
+        require(_start < _end, "Invalid range");
+
+        uint256 length = _end - _start;
+        Message[] memory result = new Message[](length);
+
+        for (uint256 i = 0; i < length; i++) {
+            result[i] = messages[_start + i];
+        }
+
+        return result;
+    }
 }
