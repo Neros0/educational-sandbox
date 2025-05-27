@@ -75,4 +75,12 @@ contract PersonalRegistry {
     function hasProfile(address _user) external view returns (bool) {
         return profiles[_user].exists;
     }
+
+    /**
+     * @dev Get total number of registered users
+     * @return uint256 count of registered users
+     */
+    function getTotalUsers() external view returns (uint256) {
+        return registeredUsers.length;
+    }
 }
