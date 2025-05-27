@@ -66,4 +66,13 @@ contract PersonalRegistry {
         require(profiles[_user].exists, "Profile does not exist");
         return profiles[_user];
     }
+
+    /**
+     * @dev Check if a user has a profile
+     * @param _user Address to check
+     * @return bool indicating if profile exists
+     */
+    function hasProfile(address _user) external view returns (bool) {
+        return profiles[_user].exists;
+    }
 }
