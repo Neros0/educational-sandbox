@@ -18,4 +18,7 @@ contract PersonalRegistry {
 
     mapping(address => Profile) public profiles;
     address[] public registeredUsers;
+
+    event ProfileCreated(address indexed user, string name);
+    event ProfileUpdated(address indexed user, string name);
 }
