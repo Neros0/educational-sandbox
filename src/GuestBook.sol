@@ -63,4 +63,24 @@ contract Guestbook {
         require(_index < messages.length, "Message index out of bounds");
         return messages[_index];
     }
+
+    /**
+     * @dev Get the latest N messages
+     * @param _count Number of recent messages to retrieve
+     * @return Array of Message structs
+     */
+    function getLatestMessages(uint256 _count) external view returns (Message[] memory) {
+        require(_count > 0, "Count must be greater than 0");
+
+        uint256 startIndex = messages.length > _count ? messages.length - _count : 0;
+        uint256 resultLength = messages.length - startIndex;
+
+        Message[] memory result = new Message[](resultLength);
+
+        for (uint256 i = 0; i < resultLength; i++) {
+            result[i] = messages[startIndex + i];
+        }
+
+        return result;
+    }
 }
