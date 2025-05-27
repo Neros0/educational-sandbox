@@ -56,4 +56,14 @@ contract PersonalRegistry {
             emit ProfileUpdated(msg.sender, _name);
         }
     }
+
+    /**
+     * @dev Get a user's profile
+     * @param _user Address of the user
+     * @return Profile struct containing user information
+     */
+    function getProfile(address _user) external view returns (Profile memory) {
+        require(profiles[_user].exists, "Profile does not exist");
+        return profiles[_user];
+    }
 }
