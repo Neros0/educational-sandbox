@@ -143,4 +143,13 @@ contract Guestbook {
     function getUserMessageCount(address _user) external view returns (uint256) {
         return userMessageCount[_user];
     }
+
+    /**
+     * @dev Check if user can post a message (not in cooldown)
+     * @param _user Address to check
+     * @return bool indicating if user can post
+     */
+    function canPostMessage(address _user) external view returns (bool) {
+        return block.timestamp >= lastMessageTime[_user] + COOLDOWN_PERIOD;
+    }
 }
