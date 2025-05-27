@@ -93,4 +93,22 @@ contract PersonalRegistry {
         require(_index < registeredUsers.length, "Index out of bounds");
         return registeredUsers[_index];
     }
+
+    /**
+     * @dev Delete your own profile
+     */
+    function deleteProfile() external {
+        require(profiles[msg.sender].exists, "Profile does not exist");
+
+        delete profiles[msg.sender];
+
+        // Remove from registeredUsers array
+        for (uint256 i = 0; i < registeredUsers.length; i++) {
+            if (registeredUsers[i] == msg.sender) {
+                registeredUsers[i] = registeredUsers[registeredUsers.length - 1];
+                registeredUsers.pop();
+                break;
+            }
+        }
+    }
 }
