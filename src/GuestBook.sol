@@ -25,4 +25,6 @@ contract Guestbook {
     uint256 public constant COOLDOWN_PERIOD = 60; // 1 minute between messages
 
     mapping(address => uint256) public lastMessageTime;
+
+    event MessagePosted(address indexed author, uint256 indexed messageId, string content, uint256 timestamp);
 }
