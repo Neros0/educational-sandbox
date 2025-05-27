@@ -27,4 +27,30 @@ contract Guestbook {
     mapping(address => uint256) public lastMessageTime;
 
     event MessagePosted(address indexed author, uint256 indexed messageId, string content, uint256 timestamp);
+
+    /**
+     * @dev Post a new message to the guestbook
+     * @param _content The message content
+     */
+    function postMessage(string memory _content) external {
+        require(bytes(_content).length > 0, "Message cannot be empty");
+        require(bytes(_content).length <= MAX_MESSAGE_LENGTH, "Message too long");
+        require(
+            block.timestamp >= lastMessageTime[msg.sender] + COOLDOWN_PERIOD, "Must wait before posting another message"
+        );
+
+        uint256 messageId = nextMessageId;
+        nextMessageId++;
+
+        Message memory newMessage =
+            Message({author: msg.sender, content: _content, timestamp: block.timestamp, id: messageId});
+
+        messages.push(newMessage);
+        userMessages[msg.sender].push(messageId);
+        userMessageCount[msg.sender]++;
+        totalMessages++;
+        lastMessageTime[msg.sender] = block.timestamp;
+
+        emit MessagePosted(msg.sender, messageId, _content, block.timestamp);
+    }
 }
