@@ -161,4 +161,13 @@ contract ReputationSystem {
 
         return (categoryCount, categoryAverage);
     }
+
+    /**
+     * @dev Get endorsements received by a user
+     * @param _user Address of the user
+     * @return Array of endorsement IDs
+     */
+    function getUserEndorsements(address _user) external view returns (uint256[] memory) {
+        return userEndorsements[_user];
+    }
 }
