@@ -208,4 +208,18 @@ contract ReputationSystem {
         if (_endorser == _endorsed) return false;
         return block.timestamp >= lastEndorsementTime[_endorser][_endorsed] + COOLDOWN_PERIOD;
     }
+
+    /**
+     * @dev Get cooldown remaining time
+     * @param _endorser Address of endorser
+     * @param _endorsed Address of endorsed
+     * @return Seconds remaining in cooldown
+     */
+    function getCooldownRemaining(address _endorser, address _endorsed) external view returns (uint256) {
+        uint256 nextAllowedTime = lastEndorsementTime[_endorser][_endorsed] + COOLDOWN_PERIOD;
+        if (block.timestamp >= nextAllowedTime) {
+            return 0;
+        }
+        return nextAllowedTime - block.timestamp;
+    }
 }
