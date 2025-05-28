@@ -128,4 +128,19 @@ contract CertificateStorage {
 
         emit CertificateIssued(certificateId, msg.sender, _recipient, _title);
     }
+
+    /**
+     * @dev Revoke a certificate (only by original issuer)
+     * @param _certificateId ID of the certificate to revoke
+     */
+    function revokeCertificate(uint256 _certificateId) external validCertificate(_certificateId) {
+        Certificate storage cert = certificates[_certificateId];
+        require(cert.issuer == msg.sender, "Only issuer can revoke certificate");
+        require(!cert.revoked, "Certificate already revoked");
+
+        cert.revoked = true;
+        cert.revokedAt = block.timestamp;
+
+        emit CertificateRevoked(_certificateId, msg.sender, block.timestamp);
+    }
 }
