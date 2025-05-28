@@ -182,4 +182,13 @@ contract CertificateStorage {
 
         return true;
     }
+
+    /**
+     * @dev Get all certificates issued by a specific issuer
+     * @param _issuer Issuer address
+     * @return Array of certificate IDs
+     */
+    function getCertificatesByIssuer(address _issuer) external view returns (uint256[] memory) {
+        return issuerCertificates[_issuer];
+    }
 }
