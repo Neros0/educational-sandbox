@@ -73,4 +73,16 @@ contract CertificateStorage {
         authorizedIssuers[_issuer] = true;
         emit IssuerAuthorized(_issuer);
     }
+
+    /**
+     * @dev Revoke issuer authorization
+     * @param _issuer Address to revoke
+     */
+    function revokeIssuer(address _issuer) external onlyAdmin {
+        require(authorizedIssuers[_issuer], "Issuer not authorized");
+        require(_issuer != admin, "Cannot revoke admin");
+
+        authorizedIssuers[_issuer] = false;
+        emit IssuerRevoked(_issuer);
+    }
 }
