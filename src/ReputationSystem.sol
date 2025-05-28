@@ -250,4 +250,14 @@ contract ReputationSystem {
     function getTotalEndorsements() external view returns (uint256) {
         return totalEndorsements;
     }
+
+    /**
+     * @dev Check if one user has endorsed another
+     * @param _endorser Address of potential endorser
+     * @param _endorsed Address of potential endorsed
+     * @return bool indicating if endorsement exists
+     */
+    function hasUserEndorsed(address _endorser, address _endorsed) external view returns (bool) {
+        return hasEndorsed[_endorser][_endorsed];
+    }
 }
