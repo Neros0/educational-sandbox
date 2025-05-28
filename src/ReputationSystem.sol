@@ -179,4 +179,14 @@ contract ReputationSystem {
     function getUserGivenEndorsements(address _user) external view returns (uint256[] memory) {
         return userGivenEndorsements[_user];
     }
+
+    /**
+     * @dev Get endorsement details
+     * @param _endorsementId Endorsement ID
+     * @return Endorsement struct
+     */
+    function getEndorsement(uint256 _endorsementId) external view returns (Endorsement memory) {
+        require(_endorsementId < endorsements.length, "Endorsement does not exist");
+        return endorsements[_endorsementId];
+    }
 }
