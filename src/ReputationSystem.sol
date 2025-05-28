@@ -41,4 +41,10 @@ contract ReputationSystem {
     // Configuration
     uint256 public constant COOLDOWN_PERIOD = 0; // 0 hours between endorsements from same user
     mapping(address => mapping(address => uint256)) public lastEndorsementTime;
+
+    event EndorsementGiven(
+        address indexed endorser, address indexed endorsed, string category, uint8 rating, uint256 endorsementId
+    );
+
+    event CategoryAdded(string category);
 }
