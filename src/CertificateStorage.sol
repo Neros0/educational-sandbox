@@ -41,4 +41,19 @@ contract CertificateStorage {
 
     event IssuerAuthorized(address indexed issuer);
     event IssuerRevoked(address indexed issuer);
+
+    modifier onlyAdmin() {
+        require(msg.sender == admin, "Only admin can perform this action");
+        _;
+    }
+
+    modifier onlyAuthorizedIssuer() {
+        require(authorizedIssuers[msg.sender], "Not an authorized issuer");
+        _;
+    }
+
+    modifier validCertificate(uint256 _certificateId) {
+        require(certificateExists[_certificateId], "Certificate does not exist");
+        _;
+    }
 }
