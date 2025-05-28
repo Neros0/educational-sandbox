@@ -157,4 +157,29 @@ contract CertificateStorage {
     {
         return certificates[_certificateId];
     }
+
+    /**
+     * @dev Verify if a certificate is valid (exists, not revoked, not expired)
+     * @param _certificateId Certificate ID
+     * @return bool indicating validity
+     */
+    function verifyCertificate(uint256 _certificateId) external view returns (bool) {
+        if (!certificateExists[_certificateId]) {
+            return false;
+        }
+
+        Certificate memory cert = certificates[_certificateId];
+
+        // Check if revoked
+        if (cert.revoked) {
+            return false;
+        }
+
+        // Check if expired
+        if (cert.expiresAt != 0 && cert.expiresAt <= block.timestamp) {
+            return false;
+        }
+
+        return true;
+    }
 }
