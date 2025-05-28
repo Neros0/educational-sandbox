@@ -74,4 +74,55 @@ contract ReputationSystem {
         validCategories[_category] = true;
         emit CategoryAdded(_category);
     }
+
+    /**
+     * @dev Give an endorsement to another user
+     * @param _endorsed Address of the user being endorsed
+     * @param _category Endorsement category
+     * @param _rating Rating from 1-5
+     * @param _comment Optional comment
+     */
+    function giveEndorsement(address _endorsed, string memory _category, uint8 _rating, string memory _comment)
+        external
+    {
+        require(_endorsed != address(0), "Invalid endorsed address");
+        require(_endorsed != msg.sender, "Cannot endorse yourself");
+        require(validCategories[_category], "Invalid category");
+        require(_rating >= 1 && _rating <= 5, "Rating must be between 1-5");
+        require(
+            block.timestamp >= lastEndorsementTime[msg.sender][_endorsed] + COOLDOWN_PERIOD,
+            "Must wait 24 hours between endorsements for same user"
+        );
+
+        uint256 endorsementId = nextEndorsementId;
+        nextEndorsementId++;
+
+        Endorsement memory newEndorsement = Endorsement({
+            endorser: msg.sender,
+            endorsed: _endorsed,
+            category: _category,
+            comment: _comment,
+            rating: _rating,
+            timestamp: block.timestamp,
+            id: endorsementId
+        });
+
+        endorsements.push(newEndorsement);
+        userEndorsements[_endorsed].push(endorsementId);
+        userGivenEndorsements[msg.sender].push(endorsementId);
+
+        // Update reputation score
+        ReputationScore storage score = reputationScores[_endorsed];
+        score.totalEndorsements++;
+        score.totalRating += _rating;
+        score.averageRating = (score.totalRating * 100) / score.totalEndorsements;
+        score.categoryCount[_category]++;
+        score.categoryRating[_category] += _rating;
+
+        hasEndorsed[msg.sender][_endorsed] = true;
+        lastEndorsementTime[msg.sender][_endorsed] = block.timestamp;
+        totalEndorsements++;
+
+        emit EndorsementGiven(msg.sender, _endorsed, _category, _rating, endorsementId);
+    }
 }
