@@ -242,4 +242,12 @@ contract ReputationSystem {
 
         return result;
     }
+
+    /**
+     * @dev Get total number of endorsements in the system
+     * @return Total endorsement count
+     */
+    function getTotalEndorsements() external view returns (uint256) {
+        return totalEndorsements;
+    }
 }
