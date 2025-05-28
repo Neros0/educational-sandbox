@@ -235,4 +235,19 @@ contract CertificateStorage {
     function getTotalCertificates() external view returns (uint256) {
         return totalCertificates;
     }
+
+    /**
+     * @dev Check if certificate is expired
+     * @param _certificateId Certificate ID
+     * @return bool indicating if expired
+     */
+    function isCertificateExpired(uint256 _certificateId)
+        external
+        view
+        validCertificate(_certificateId)
+        returns (bool)
+    {
+        Certificate memory cert = certificates[_certificateId];
+        return cert.expiresAt != 0 && cert.expiresAt <= block.timestamp;
+    }
 }
