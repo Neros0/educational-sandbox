@@ -61,4 +61,16 @@ contract CertificateStorage {
         admin = msg.sender;
         authorizedIssuers[msg.sender] = true; // Admin is automatically an authorized issuer
     }
+
+    /**
+     * @dev Authorize an address to issue certificates
+     * @param _issuer Address to authorize
+     */
+    function authorizeIssuer(address _issuer) external {
+        require(_issuer != address(0), "Invalid issuer address");
+        require(!authorizedIssuers[_issuer], "Issuer already authorized");
+
+        authorizedIssuers[_issuer] = true;
+        emit IssuerAuthorized(_issuer);
+    }
 }
