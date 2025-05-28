@@ -197,4 +197,15 @@ contract ReputationSystem {
     function getCategories() external view returns (string[] memory) {
         return categories;
     }
+
+    /**
+     * @dev Check if user can endorse another user (not in cooldown)
+     * @param _endorser Address of potential endorser
+     * @param _endorsed Address of potential endorsed
+     * @return bool indicating if endorsement is allowed
+     */
+    function canEndorse(address _endorser, address _endorsed) external view returns (bool) {
+        if (_endorser == _endorsed) return false;
+        return block.timestamp >= lastEndorsementTime[_endorser][_endorsed] + COOLDOWN_PERIOD;
+    }
 }
