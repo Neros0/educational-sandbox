@@ -227,4 +227,12 @@ contract CertificateStorage {
     function isAuthorizedIssuer(address _issuer) external view returns (bool) {
         return authorizedIssuers[_issuer];
     }
+
+    /**
+     * @dev Get total number of certificates in the system
+     * @return Total certificate count
+     */
+    function getTotalCertificates() external view returns (uint256) {
+        return totalCertificates;
+    }
 }
