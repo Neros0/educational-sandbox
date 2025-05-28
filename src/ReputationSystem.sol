@@ -47,4 +47,14 @@ contract ReputationSystem {
     );
 
     event CategoryAdded(string category);
+
+    constructor() {
+        // Initialize default categories
+        _addCategory("Technical Skills");
+        _addCategory("Communication");
+        _addCategory("Reliability");
+        _addCategory("Teamwork");
+        _addCategory("Leadership");
+        _addCategory("Creativity");
+    }
 }
