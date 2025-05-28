@@ -57,4 +57,15 @@ contract ReputationSystem {
         _addCategory("Leadership");
         _addCategory("Creativity");
     }
+
+    /**
+     * @dev Add a new endorsement category
+     * @param _category Category name
+     */
+    function addCategory(string memory _category) external {
+        require(bytes(_category).length > 0, "Category cannot be empty");
+        require(!validCategories[_category], "Category already exists");
+
+        _addCategory(_category);
+    }
 }
