@@ -132,8 +132,33 @@ contract ReputationSystem {
      * @return totalEndorsements Total number of endorsements received
      * @return averageRating Average rating (multiplied by 100)
      */
-    function getReputationScore(address _user) external view returns (uint256 totalEndorsements, uint256 averageRating) {
+    function getReputationScore(address _user)
+        external
+        view
+        returns (uint256 totalEndorsements, uint256 averageRating)
+    {
         ReputationScore storage score = reputationScores[_user];
         return (score.totalEndorsements, score.averageRating);
+    }
+
+    /**
+     * @dev Get user's reputation in a specific category
+     * @param _user Address of the user
+     * @param _category Category name
+     * @return count Number of endorsements in category
+     * @return averageRating Average rating in category (multiplied by 100)
+     */
+    function getCategoryReputation(address _user, string memory _category)
+        external
+        view
+        returns (uint256 count, uint256 averageRating)
+    {
+        require(validCategories[_category], "Invalid category");
+
+        ReputationScore storage score = reputationScores[_user];
+        uint256 categoryCount = score.categoryCount[_category];
+        uint256 categoryAverage = categoryCount > 0 ? (score.categoryRating[_category] * 100) / categoryCount : 0;
+
+        return (categoryCount, categoryAverage);
     }
 }
