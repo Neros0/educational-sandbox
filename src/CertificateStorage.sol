@@ -143,4 +143,18 @@ contract CertificateStorage {
 
         emit CertificateRevoked(_certificateId, msg.sender, block.timestamp);
     }
+
+    /**
+     * @dev Get certificate details
+     * @param _certificateId Certificate ID
+     * @return Certificate struct
+     */
+    function getCertificate(uint256 _certificateId)
+        external
+        view
+        validCertificate(_certificateId)
+        returns (Certificate memory)
+    {
+        return certificates[_certificateId];
+    }
 }
