@@ -68,7 +68,6 @@ contract CertificateStorage {
      */
     function authorizeIssuer(address _issuer) external {
         require(_issuer != address(0), "Invalid issuer address");
-        require(!authorizedIssuers[_issuer], "Issuer already authorized");
 
         authorizedIssuers[_issuer] = true;
         emit IssuerAuthorized(_issuer);
@@ -84,5 +83,49 @@ contract CertificateStorage {
 
         authorizedIssuers[_issuer] = false;
         emit IssuerRevoked(_issuer);
+    }
+
+    /**
+     * @dev Issue a new certificate
+     * @param _recipient Address of the certificate recipient
+     * @param _title Certificate title
+     * @param _description Certificate description
+     * @param _metadataHash IPFS hash or metadata reference
+     * @param _expiresAt Expiration timestamp (0 for non-expiring)
+     */
+    function issueCertificate(
+        address _recipient,
+        string memory _title,
+        string memory _description,
+        string memory _metadataHash,
+        uint256 _expiresAt
+    ) external onlyAuthorizedIssuer {
+        require(_recipient != address(0), "Invalid recipient address");
+        require(bytes(_title).length > 0, "Title cannot be empty");
+        require(_expiresAt == 0 || _expiresAt > block.timestamp, "Invalid expiration date");
+
+        uint256 certificateId = nextCertificateId;
+        nextCertificateId++;
+
+        Certificate memory newCertificate = Certificate({
+            id: certificateId,
+            issuer: msg.sender,
+            recipient: _recipient,
+            title: _title,
+            description: _description,
+            metadataHash: _metadataHash,
+            issuedAt: block.timestamp,
+            expiresAt: _expiresAt,
+            revoked: false,
+            revokedAt: 0
+        });
+
+        certificates.push(newCertificate);
+        certificateExists[certificateId] = true;
+        issuerCertificates[msg.sender].push(certificateId);
+        recipientCertificates[_recipient].push(certificateId);
+        totalCertificates++;
+
+        emit CertificateIssued(certificateId, msg.sender, _recipient, _title);
     }
 }
