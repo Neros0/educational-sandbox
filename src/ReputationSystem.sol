@@ -189,4 +189,12 @@ contract ReputationSystem {
         require(_endorsementId < endorsements.length, "Endorsement does not exist");
         return endorsements[_endorsementId];
     }
+
+    /**
+     * @dev Get all available categories
+     * @return Array of category names
+     */
+    function getCategories() external view returns (string[] memory) {
+        return categories;
+    }
 }
