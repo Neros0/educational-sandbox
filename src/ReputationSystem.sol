@@ -23,4 +23,22 @@ contract ReputationSystem {
         mapping(string => uint256) categoryCount;
         mapping(string => uint256) categoryRating;
     }
+
+    // Storage
+    Endorsement[] public endorsements;
+    mapping(address => ReputationScore) public reputationScores;
+    mapping(address => mapping(address => bool)) public hasEndorsed; // endorser => endorsed => bool
+    mapping(address => uint256[]) public userEndorsements; // endorsements received by user
+    mapping(address => uint256[]) public userGivenEndorsements; // endorsements given by user
+
+    // Categories
+    string[] public categories;
+    mapping(string => bool) public validCategories;
+
+    uint256 public totalEndorsements;
+    uint256 private nextEndorsementId;
+
+    // Configuration
+    uint256 public constant COOLDOWN_PERIOD = 0; // 0 hours between endorsements from same user
+    mapping(address => mapping(address => uint256)) public lastEndorsementTime;
 }
