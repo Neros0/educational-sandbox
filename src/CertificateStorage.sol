@@ -191,4 +191,13 @@ contract CertificateStorage {
     function getCertificatesByIssuer(address _issuer) external view returns (uint256[] memory) {
         return issuerCertificates[_issuer];
     }
+
+    /**
+     * @dev Get all certificates received by a specific recipient
+     * @param _recipient Recipient address
+     * @return Array of certificate IDs
+     */
+    function getCertificatesByRecipient(address _recipient) external view returns (uint256[] memory) {
+        return recipientCertificates[_recipient];
+    }
 }
