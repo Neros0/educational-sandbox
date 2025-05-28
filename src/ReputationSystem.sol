@@ -125,4 +125,15 @@ contract ReputationSystem {
 
         emit EndorsementGiven(msg.sender, _endorsed, _category, _rating, endorsementId);
     }
+
+    /**
+     * @dev Get user's reputation score
+     * @param _user Address of the user
+     * @return totalEndorsements Total number of endorsements received
+     * @return averageRating Average rating (multiplied by 100)
+     */
+    function getReputationScore(address _user) external view returns (uint256 totalEndorsements, uint256 averageRating) {
+        ReputationScore storage score = reputationScores[_user];
+        return (score.totalEndorsements, score.averageRating);
+    }
 }
