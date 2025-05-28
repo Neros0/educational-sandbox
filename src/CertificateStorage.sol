@@ -209,4 +209,13 @@ contract CertificateStorage {
     function getIssuerCertificateCount(address _issuer) external view returns (uint256) {
         return issuerCertificates[_issuer].length;
     }
+
+    /**
+     * @dev Get certificate count for a recipient
+     * @param _recipient Recipient address
+     * @return Number of certificates received
+     */
+    function getRecipientCertificateCount(address _recipient) external view returns (uint256) {
+        return recipientCertificates[_recipient].length;
+    }
 }
