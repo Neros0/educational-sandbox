@@ -56,4 +56,9 @@ contract CertificateStorage {
         require(certificateExists[_certificateId], "Certificate does not exist");
         _;
     }
+
+    constructor() {
+        admin = msg.sender;
+        authorizedIssuers[msg.sender] = true; // Admin is automatically an authorized issuer
+    }
 }
