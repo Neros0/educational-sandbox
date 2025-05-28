@@ -218,4 +218,13 @@ contract CertificateStorage {
     function getRecipientCertificateCount(address _recipient) external view returns (uint256) {
         return recipientCertificates[_recipient].length;
     }
+
+    /**
+     * @dev Check if an address is an authorized issuer
+     * @param _issuer Address to check
+     * @return bool indicating authorization status
+     */
+    function isAuthorizedIssuer(address _issuer) external view returns (bool) {
+        return authorizedIssuers[_issuer];
+    }
 }
