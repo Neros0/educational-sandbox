@@ -222,4 +222,24 @@ contract ReputationSystem {
         }
         return nextAllowedTime - block.timestamp;
     }
+
+    /**
+     * @dev Get recent endorsements (latest N)
+     * @param _count Number of recent endorsements to get
+     * @return Array of Endorsement structs
+     */
+    function getRecentEndorsements(uint256 _count) external view returns (Endorsement[] memory) {
+        require(_count > 0, "Count must be greater than 0");
+
+        uint256 startIndex = endorsements.length > _count ? endorsements.length - _count : 0;
+        uint256 resultLength = endorsements.length - startIndex;
+
+        Endorsement[] memory result = new Endorsement[](resultLength);
+
+        for (uint256 i = 0; i < resultLength; i++) {
+            result[i] = endorsements[startIndex + i];
+        }
+
+        return result;
+    }
 }
