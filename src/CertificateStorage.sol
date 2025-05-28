@@ -32,4 +32,13 @@ contract CertificateStorage {
 
     // Admin
     address public admin;
+
+    event CertificateIssued(
+        uint256 indexed certificateId, address indexed issuer, address indexed recipient, string title
+    );
+
+    event CertificateRevoked(uint256 indexed certificateId, address indexed issuer, uint256 revokedAt);
+
+    event IssuerAuthorized(address indexed issuer);
+    event IssuerRevoked(address indexed issuer);
 }
