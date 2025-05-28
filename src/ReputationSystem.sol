@@ -68,4 +68,10 @@ contract ReputationSystem {
 
         _addCategory(_category);
     }
+
+    function _addCategory(string memory _category) internal {
+        categories.push(_category);
+        validCategories[_category] = true;
+        emit CategoryAdded(_category);
+    }
 }
