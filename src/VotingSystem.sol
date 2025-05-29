@@ -201,4 +201,17 @@ contract VotingSystem {
 
         emit ProposalStatusChanged(_proposalId, proposal.status);
     }
+
+    /**
+     * @dev Cancel a proposal (only by proposer or admin)
+     * @param _proposalId Proposal ID
+     */
+    function cancelProposal(uint256 _proposalId) external validProposal(_proposalId) {
+        Proposal storage proposal = proposals[_proposalId];
+        require(msg.sender == proposal.proposer || msg.sender == admin, "Only proposer or admin can cancel");
+        require(proposal.status == ProposalStatus.ACTIVE, "Proposal not active");
+
+        proposal.status = ProposalStatus.CANCELLED;
+        emit ProposalStatusChanged(_proposalId, ProposalStatus.CANCELLED);
+    }
 }
