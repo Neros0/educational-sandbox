@@ -241,4 +241,32 @@ contract VotingSystem {
     function getUserProposals(address _user) external view returns (uint256[] memory) {
         return userProposals[_user];
     }
+
+    /**
+     * @dev Get active proposals
+     * @return Array of proposal IDs that are currently active
+     */
+    function getActiveProposals() external view returns (uint256[] memory) {
+        uint256 activeCount = 0;
+
+        // Count active proposals
+        for (uint256 i = 0; i < proposals.length; i++) {
+            if (proposals[i].status == ProposalStatus.ACTIVE && block.timestamp <= proposals[i].endTime) {
+                activeCount++;
+            }
+        }
+
+        // Build array of active proposal IDs
+        uint256[] memory activeProposals = new uint256[](activeCount);
+        uint256 index = 0;
+
+        for (uint256 i = 0; i < proposals.length; i++) {
+            if (proposals[i].status == ProposalStatus.ACTIVE && block.timestamp <= proposals[i].endTime) {
+                activeProposals[index] = i;
+                index++;
+            }
+        }
+
+        return activeProposals;
+    }
 }
