@@ -82,4 +82,9 @@ contract VotingSystem {
         require(_proposalId < proposals.length, "Proposal does not exist");
         _;
     }
+
+    constructor() {
+        admin = msg.sender;
+        proposalCreationOpen = true;
+    }
 }
