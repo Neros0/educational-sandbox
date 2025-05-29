@@ -269,4 +269,14 @@ contract VotingSystem {
 
         return activeProposals;
     }
+
+    /**
+     * @dev Check if user has voted on a proposal
+     * @param _proposalId Proposal ID
+     * @param _user User address
+     * @return bool indicating if user has voted
+     */
+    function hasUserVoted(uint256 _proposalId, address _user) external view returns (bool) {
+        return hasVoted[_proposalId][_user];
+    }
 }
