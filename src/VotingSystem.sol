@@ -42,4 +42,26 @@ contract VotingSystem {
         uint256 timestamp;
         string comment;
     }
+
+    // Storage
+    Proposal[] public proposals;
+    mapping(uint256 => mapping(address => bool)) public hasVoted;
+    mapping(uint256 => mapping(address => VoteOption)) public userVotes;
+    mapping(uint256 => Vote[]) public proposalVotes;
+    mapping(address => uint256[]) public userProposals;
+    mapping(address => uint256) public userVoteCount;
+
+    uint256 public totalProposals;
+    uint256 private nextProposalId;
+
+    // Configuration
+    uint256 public constant MIN_VOTING_PERIOD = 1 days;
+    uint256 public constant MAX_VOTING_PERIOD = 30 days;
+    uint256 public constant PROPOSAL_COOLDOWN = 1 hours; // Time between proposals from same user
+
+    mapping(address => uint256) public lastProposalTime;
+
+    // Admin settings
+    address public admin;
+    bool public proposalCreationOpen; // If false, only admin can create proposals
 }
