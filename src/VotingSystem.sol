@@ -214,4 +214,13 @@ contract VotingSystem {
         proposal.status = ProposalStatus.CANCELLED;
         emit ProposalStatusChanged(_proposalId, ProposalStatus.CANCELLED);
     }
+
+    /**
+     * @dev Get proposal details
+     * @param _proposalId Proposal ID
+     * @return Proposal struct
+     */
+    function getProposal(uint256 _proposalId) external view validProposal(_proposalId) returns (Proposal memory) {
+        return proposals[_proposalId];
+    }
 }
