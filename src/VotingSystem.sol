@@ -310,4 +310,22 @@ contract VotingSystem {
     function getTotalProposals() external view returns (uint256) {
         return totalProposals;
     }
+
+    /**
+     * @dev Get voting statistics for a proposal
+     * @param _proposalId Proposal ID
+     * @return yesVotes Number of yes votes
+     * @return noVotes Number of no votes
+     * @return abstainVotes Number of abstain votes
+     * @return totalVotes Total number of votes
+     */
+    function getVotingStats(uint256 _proposalId)
+        external
+        view
+        validProposal(_proposalId)
+        returns (uint256 yesVotes, uint256 noVotes, uint256 abstainVotes, uint256 totalVotes)
+    {
+        Proposal memory proposal = proposals[_proposalId];
+        return (proposal.yesVotes, proposal.noVotes, proposal.abstainVotes, proposal.totalVotes);
+    }
 }
