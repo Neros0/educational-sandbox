@@ -64,4 +64,12 @@ contract VotingSystem {
     // Admin settings
     address public admin;
     bool public proposalCreationOpen; // If false, only admin can create proposals
+
+    event ProposalCreated(
+        uint256 indexed proposalId, address indexed proposer, string title, uint256 startTime, uint256 endTime
+    );
+
+    event VoteCast(uint256 indexed proposalId, address indexed voter, VoteOption choice, string comment);
+
+    event ProposalStatusChanged(uint256 indexed proposalId, ProposalStatus newStatus);
 }
