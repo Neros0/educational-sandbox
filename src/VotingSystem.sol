@@ -137,4 +137,49 @@ contract VotingSystem {
 
         emit ProposalCreated(proposalId, msg.sender, _title, startTime, endTime);
     }
+
+    /**
+     * @dev Cast a vote on a proposal
+     * @param _proposalId Proposal ID
+     * @param _choice Vote choice (0=ABSTAIN, 1=YES, 2=NO)
+     * @param _comment Optional comment explaining the vote
+     */
+    function vote(uint256 _proposalId, VoteOption _choice, string memory _comment)
+        external
+        validProposal(_proposalId)
+    {
+        Proposal storage proposal = proposals[_proposalId];
+        require(proposal.status == ProposalStatus.ACTIVE, "Proposal not active");
+        require(block.timestamp >= proposal.startTime, "Voting not started");
+        require(block.timestamp <= proposal.endTime, "Voting period ended");
+        require(!hasVoted[_proposalId][msg.sender], "Already voted");
+
+        hasVoted[_proposalId][msg.sender] = true;
+        userVotes[_proposalId][msg.sender] = _choice;
+
+        // Record the vote
+        Vote memory newVote = Vote({
+            voter: msg.sender,
+            proposalId: _proposalId,
+            choice: _choice,
+            timestamp: block.timestamp,
+            comment: _comment
+        });
+
+        proposalVotes[_proposalId].push(newVote);
+
+        // Update vote counts
+        if (_choice == VoteOption.YES) {
+            proposal.yesVotes++;
+        } else if (_choice == VoteOption.NO) {
+            proposal.noVotes++;
+        } else {
+            proposal.abstainVotes++;
+        }
+
+        proposal.totalVotes++;
+        userVoteCount[msg.sender]++;
+
+        emit VoteCast(_proposalId, msg.sender, _choice, _comment);
+    }
 }
