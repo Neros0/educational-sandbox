@@ -72,4 +72,14 @@ contract VotingSystem {
     event VoteCast(uint256 indexed proposalId, address indexed voter, VoteOption choice, string comment);
 
     event ProposalStatusChanged(uint256 indexed proposalId, ProposalStatus newStatus);
+
+    modifier onlyAdmin() {
+        require(msg.sender == admin, "Only admin can perform this action");
+        _;
+    }
+
+    modifier validProposal(uint256 _proposalId) {
+        require(_proposalId < proposals.length, "Proposal does not exist");
+        _;
+    }
 }
