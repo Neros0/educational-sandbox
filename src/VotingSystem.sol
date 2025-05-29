@@ -290,4 +290,16 @@ contract VotingSystem {
         require(hasVoted[_proposalId][_user], "User has not voted");
         return userVotes[_proposalId][_user];
     }
+
+    /**
+     * @dev Check if user can create a proposal (not in cooldown)
+     * @param _user User address
+     * @return bool indicating if user can create proposal
+     */
+    function canCreateProposal(address _user) external view returns (bool) {
+        if (!proposalCreationOpen && _user != admin) {
+            return false;
+        }
+        return block.timestamp >= lastProposalTime[_user] + PROPOSAL_COOLDOWN;
+    }
 }
