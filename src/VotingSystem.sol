@@ -223,4 +223,13 @@ contract VotingSystem {
     function getProposal(uint256 _proposalId) external view validProposal(_proposalId) returns (Proposal memory) {
         return proposals[_proposalId];
     }
+
+    /**
+     * @dev Get all votes for a proposal
+     * @param _proposalId Proposal ID
+     * @return Array of Vote structs
+     */
+    function getProposalVotes(uint256 _proposalId) external view validProposal(_proposalId) returns (Vote[] memory) {
+        return proposalVotes[_proposalId];
+    }
 }
