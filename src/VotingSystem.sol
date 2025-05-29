@@ -182,4 +182,23 @@ contract VotingSystem {
 
         emit VoteCast(_proposalId, msg.sender, _choice, _comment);
     }
+
+    /**
+     * @dev Finalize a proposal after voting period ends
+     * @param _proposalId Proposal ID
+     */
+    function finalizeProposal(uint256 _proposalId) external validProposal(_proposalId) {
+        Proposal storage proposal = proposals[_proposalId];
+        require(proposal.status == ProposalStatus.ACTIVE, "Proposal not active");
+        require(block.timestamp > proposal.endTime, "Voting period not ended");
+
+        // Determine result: YES wins if it has more votes than NO
+        if (proposal.yesVotes > proposal.noVotes) {
+            proposal.status = ProposalStatus.PASSED;
+        } else {
+            proposal.status = ProposalStatus.REJECTED;
+        }
+
+        emit ProposalStatusChanged(_proposalId, proposal.status);
+    }
 }
