@@ -57,7 +57,7 @@ contract VotingSystem {
     // Configuration
     uint256 public constant MIN_VOTING_PERIOD = 1 days;
     uint256 public constant MAX_VOTING_PERIOD = 30 days;
-    uint256 public constant PROPOSAL_COOLDOWN = 1 hours; // Time between proposals from same user
+    uint256 public constant PROPOSAL_COOLDOWN = 0; // Time between proposals from same user
 
     mapping(address => uint256) public lastProposalTime;
 
@@ -94,5 +94,47 @@ contract VotingSystem {
      */
     function setProposalCreationOpen(bool _open) external onlyAdmin {
         proposalCreationOpen = _open;
+    }
+
+    /**
+     * @dev Create a new proposal
+     * @param _title Proposal title
+     * @param _description Detailed description
+     * @param _votingPeriod Duration of voting in seconds
+     */
+    function createProposal(string memory _title, string memory _description, uint256 _votingPeriod) external {
+        require(proposalCreationOpen || msg.sender == admin, "Proposal creation restricted");
+        require(bytes(_title).length > 0, "Title cannot be empty");
+        require(bytes(_description).length > 0, "Description cannot be empty");
+        require(_votingPeriod >= MIN_VOTING_PERIOD && _votingPeriod <= MAX_VOTING_PERIOD, "Invalid voting period");
+
+        uint256 proposalId = nextProposalId;
+        nextProposalId++;
+
+        uint256 startTime = block.timestamp;
+        uint256 endTime = startTime + _votingPeriod;
+
+        Proposal memory newProposal = Proposal({
+            id: proposalId,
+            proposer: msg.sender,
+            title: _title,
+            description: _description,
+            createdAt: block.timestamp,
+            startTime: startTime,
+            endTime: endTime,
+            yesVotes: 0,
+            noVotes: 0,
+            abstainVotes: 0,
+            totalVotes: 0,
+            status: ProposalStatus.ACTIVE,
+            executed: false
+        });
+
+        proposals.push(newProposal);
+        userProposals[msg.sender].push(proposalId);
+        lastProposalTime[msg.sender] = block.timestamp;
+        totalProposals++;
+
+        emit ProposalCreated(proposalId, msg.sender, _title, startTime, endTime);
     }
 }
