@@ -302,4 +302,12 @@ contract VotingSystem {
         }
         return block.timestamp >= lastProposalTime[_user] + PROPOSAL_COOLDOWN;
     }
+
+    /**
+     * @dev Get total number of proposals
+     * @return Total proposal count
+     */
+    function getTotalProposals() external view returns (uint256) {
+        return totalProposals;
+    }
 }
