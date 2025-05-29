@@ -279,4 +279,15 @@ contract VotingSystem {
     function hasUserVoted(uint256 _proposalId, address _user) external view returns (bool) {
         return hasVoted[_proposalId][_user];
     }
+
+    /**
+     * @dev Get user's vote on a proposal
+     * @param _proposalId Proposal ID
+     * @param _user User address
+     * @return VoteOption chosen by user
+     */
+    function getUserVote(uint256 _proposalId, address _user) external view returns (VoteOption) {
+        require(hasVoted[_proposalId][_user], "User has not voted");
+        return userVotes[_proposalId][_user];
+    }
 }
