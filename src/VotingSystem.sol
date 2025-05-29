@@ -87,4 +87,12 @@ contract VotingSystem {
         admin = msg.sender;
         proposalCreationOpen = true;
     }
+
+    /**
+     * @dev Toggle proposal creation access
+     * @param _open True to allow anyone to create proposals, false for admin only
+     */
+    function setProposalCreationOpen(bool _open) external onlyAdmin {
+        proposalCreationOpen = _open;
+    }
 }
