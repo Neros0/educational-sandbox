@@ -73,4 +73,14 @@ contract EventRSVP {
     event AttendeeCheckedIn(uint256 indexed eventId, address indexed attendee, uint256 timestamp);
 
     event EventStatusChanged(uint256 indexed eventId, EventStatus newStatus);
+
+    modifier validEvent(uint256 _eventId) {
+        require(_eventId < events.length, "Event does not exist");
+        _;
+    }
+
+    modifier onlyOrganizer(uint256 _eventId) {
+        require(events[_eventId].organizer == msg.sender, "Only organizer can perform this action");
+        _;
+    }
 }
