@@ -44,4 +44,19 @@ contract EventRSVP {
         bool checkedIn;
         uint256 checkedInAt;
     }
+
+    // Storage
+    Event[] public events;
+    mapping(uint256 => mapping(address => RSVP)) public eventRSVPs;
+    mapping(uint256 => address[]) public eventAttendees;
+    mapping(uint256 => address[]) public eventWaitlist;
+    mapping(address => uint256[]) public userEvents;
+    mapping(address => uint256[]) public organizerEvents;
+
+    uint256 public totalEvents;
+    uint256 private nextEventId;
+
+    // Configuration
+    uint256 public constant MAX_EVENT_DURATION = 7 days;
+    uint256 public constant MIN_ADVANCE_NOTICE = 1 hours;
 }
