@@ -331,4 +331,13 @@ contract EventRSVP {
     function getUserEvents(address _user) external view returns (uint256[] memory) {
         return userEvents[_user];
     }
+
+    /**
+     * @dev Get events organized by a user
+     * @param _organizer Organizer address
+     * @return Array of event IDs
+     */
+    function getOrganizerEvents(address _organizer) external view returns (uint256[] memory) {
+        return organizerEvents[_organizer];
+    }
 }
