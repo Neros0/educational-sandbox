@@ -294,4 +294,14 @@ contract EventRSVP {
     function getEvent(uint256 _eventId) external view validEvent(_eventId) returns (Event memory) {
         return events[_eventId];
     }
+
+    /**
+     * @dev Get RSVP details for a user
+     * @param _eventId Event ID
+     * @param _attendee Attendee address
+     * @return RSVP struct
+     */
+    function getRSVP(uint256 _eventId, address _attendee) external view returns (RSVP memory) {
+        return eventRSVPs[_eventId][_attendee];
+    }
 }
