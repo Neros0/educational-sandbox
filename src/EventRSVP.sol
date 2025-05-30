@@ -133,4 +133,46 @@ contract EventRSVP {
 
         emit EventCreated(eventId, msg.sender, _title, _startTime, _maxAttendees);
     }
+
+    /**
+     * @dev RSVP to an event
+     * @param _eventId Event ID
+     * @param _message Optional message from attendee
+     */
+    function rsvp(uint256 _eventId, string memory _message) external validEvent(_eventId) {
+        Event storage eventData = events[_eventId];
+        require(eventData.status == EventStatus.UPCOMING, "Event is not accepting RSVPs");
+        require(block.timestamp < eventData.startTime, "Event has already started");
+        require(eventRSVPs[_eventId][msg.sender].attendee == address(0), "Already RSVPed");
+
+        RSVPStatus initialStatus;
+
+        // Determine initial status
+        if (eventData.requiresApproval) {
+            initialStatus = RSVPStatus.PENDING;
+        } else if (eventData.maxAttendees == 0 || eventData.confirmedCount < eventData.maxAttendees) {
+            initialStatus = RSVPStatus.CONFIRMED;
+            eventData.confirmedCount++;
+            eventAttendees[_eventId].push(msg.sender);
+        } else {
+            initialStatus = RSVPStatus.WAITLISTED;
+            eventData.waitlistCount++;
+            eventWaitlist[_eventId].push(msg.sender);
+        }
+
+        RSVP memory newRSVP = RSVP({
+            attendee: msg.sender,
+            eventId: _eventId,
+            status: initialStatus,
+            timestamp: block.timestamp,
+            message: _message,
+            checkedIn: false,
+            checkedInAt: 0
+        });
+
+        eventRSVPs[_eventId][msg.sender] = newRSVP;
+        userEvents[msg.sender].push(_eventId);
+
+        emit RSVPSubmitted(_eventId, msg.sender, initialStatus);
+    }
 }
