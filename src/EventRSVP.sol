@@ -209,4 +209,39 @@ contract EventRSVP {
 
         emit RSVPStatusChanged(_eventId, _attendee, oldStatus, rsvp.status);
     }
+
+    /**
+     * @dev Cancel your own RSVP
+     * @param _eventId Event ID
+     */
+    function cancelRSVP(uint256 _eventId) external validEvent(_eventId) {
+        RSVP storage rsvp = eventRSVPs[_eventId][msg.sender];
+        require(rsvp.attendee == msg.sender, "No RSVP found");
+        require(rsvp.status != RSVPStatus.CANCELLED, "RSVP already cancelled");
+
+        Event storage eventData = events[_eventId];
+        RSVPStatus oldStatus = rsvp.status;
+
+        if (rsvp.status == RSVPStatus.CONFIRMED) {
+            eventData.confirmedCount--;
+            _removeFromArray(eventAttendees[_eventId], msg.sender);
+
+            // Move someone from waitlist if space available
+            if (eventWaitlist[_eventId].length > 0) {
+                address waitlistUser = eventWaitlist[_eventId][0];
+                _removeFromArray(eventWaitlist[_eventId], waitlistUser);
+                eventAttendees[_eventId].push(waitlistUser);
+                eventRSVPs[_eventId][waitlistUser].status = RSVPStatus.CONFIRMED;
+                eventData.waitlistCount--;
+
+                emit RSVPStatusChanged(_eventId, waitlistUser, RSVPStatus.WAITLISTED, RSVPStatus.CONFIRMED);
+            }
+        } else if (rsvp.status == RSVPStatus.WAITLISTED) {
+            eventData.waitlistCount--;
+            _removeFromArray(eventWaitlist[_eventId], msg.sender);
+        }
+
+        rsvp.status = RSVPStatus.CANCELLED;
+        emit RSVPStatusChanged(_eventId, msg.sender, oldStatus, RSVPStatus.CANCELLED);
+    }
 }
