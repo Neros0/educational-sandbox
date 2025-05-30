@@ -59,4 +59,18 @@ contract EventRSVP {
     // Configuration
     uint256 public constant MAX_EVENT_DURATION = 7 days;
     uint256 public constant MIN_ADVANCE_NOTICE = 1 hours;
+
+    event EventCreated(
+        uint256 indexed eventId, address indexed organizer, string title, uint256 startTime, uint256 maxAttendees
+    );
+
+    event RSVPSubmitted(uint256 indexed eventId, address indexed attendee, RSVPStatus status);
+
+    event RSVPStatusChanged(
+        uint256 indexed eventId, address indexed attendee, RSVPStatus oldStatus, RSVPStatus newStatus
+    );
+
+    event AttendeeCheckedIn(uint256 indexed eventId, address indexed attendee, uint256 timestamp);
+
+    event EventStatusChanged(uint256 indexed eventId, EventStatus newStatus);
 }
