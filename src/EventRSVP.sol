@@ -368,4 +368,12 @@ contract EventRSVP {
 
         return upcomingEvents;
     }
+
+    /**
+     * @dev Get total number of events
+     * @return Total event count
+     */
+    function getTotalEvents() external view returns (uint256) {
+        return totalEvents;
+    }
 }
