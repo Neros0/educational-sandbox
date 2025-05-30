@@ -340,4 +340,32 @@ contract EventRSVP {
     function getOrganizerEvents(address _organizer) external view returns (uint256[] memory) {
         return organizerEvents[_organizer];
     }
+
+    /**
+     * @dev Get upcoming events
+     * @return Array of event IDs
+     */
+    function getUpcomingEvents() external view returns (uint256[] memory) {
+        uint256 count = 0;
+
+        // Count upcoming events
+        for (uint256 i = 0; i < events.length; i++) {
+            if (events[i].status == EventStatus.UPCOMING && events[i].startTime > block.timestamp) {
+                count++;
+            }
+        }
+
+        // Build array
+        uint256[] memory upcomingEvents = new uint256[](count);
+        uint256 index = 0;
+
+        for (uint256 i = 0; i < events.length; i++) {
+            if (events[i].status == EventStatus.UPCOMING && events[i].startTime > block.timestamp) {
+                upcomingEvents[index] = i;
+                index++;
+            }
+        }
+
+        return upcomingEvents;
+    }
 }
