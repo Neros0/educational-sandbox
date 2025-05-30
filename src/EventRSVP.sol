@@ -244,4 +244,28 @@ contract EventRSVP {
         rsvp.status = RSVPStatus.CANCELLED;
         emit RSVPStatusChanged(_eventId, msg.sender, oldStatus, RSVPStatus.CANCELLED);
     }
+
+    /**
+     * @dev Check in an attendee (organizer only)
+     * @param _eventId Event ID
+     * @param _attendee Attendee address
+     */
+    function checkInAttendee(uint256 _eventId, address _attendee)
+        external
+        validEvent(_eventId)
+        onlyOrganizer(_eventId)
+    {
+        RSVP storage rsvp = eventRSVPs[_eventId][_attendee];
+        require(rsvp.status == RSVPStatus.CONFIRMED, "Attendee not confirmed");
+        require(!rsvp.checkedIn, "Already checked in");
+
+        Event storage eventData = events[_eventId];
+        require(block.timestamp >= eventData.startTime, "Event has not started");
+        require(block.timestamp <= eventData.endTime, "Event has ended");
+
+        rsvp.checkedIn = true;
+        rsvp.checkedInAt = block.timestamp;
+
+        emit AttendeeCheckedIn(_eventId, _attendee, block.timestamp);
+    }
 }
