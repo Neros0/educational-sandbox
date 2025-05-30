@@ -268,4 +268,21 @@ contract EventRSVP {
 
         emit AttendeeCheckedIn(_eventId, _attendee, block.timestamp);
     }
+
+    /**
+     * @dev Update event status (organizer only)
+     * @param _eventId Event ID
+     * @param _status New status
+     */
+    function updateEventStatus(uint256 _eventId, EventStatus _status)
+        external
+        validEvent(_eventId)
+        onlyOrganizer(_eventId)
+    {
+        Event storage eventData = events[_eventId];
+        require(eventData.status != _status, "Status already set");
+
+        eventData.status = _status;
+        emit EventStatusChanged(_eventId, _status);
+    }
 }
