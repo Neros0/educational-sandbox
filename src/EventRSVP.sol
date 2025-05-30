@@ -322,4 +322,13 @@ contract EventRSVP {
     function getEventWaitlist(uint256 _eventId) external view validEvent(_eventId) returns (address[] memory) {
         return eventWaitlist[_eventId];
     }
+
+    /**
+     * @dev Get events a user has RSVPed to
+     * @param _user User address
+     * @return Array of event IDs
+     */
+    function getUserEvents(address _user) external view returns (uint256[] memory) {
+        return userEvents[_user];
+    }
 }
