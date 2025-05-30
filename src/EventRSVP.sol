@@ -175,4 +175,38 @@ contract EventRSVP {
 
         emit RSVPSubmitted(_eventId, msg.sender, initialStatus);
     }
+
+    /**
+     * @dev Approve or reject a pending RSVP (organizer only)
+     * @param _eventId Event ID
+     * @param _attendee Attendee address
+     * @param _approve True to approve, false to reject
+     */
+    function approveRSVP(uint256 _eventId, address _attendee, bool _approve)
+        external
+        validEvent(_eventId)
+        onlyOrganizer(_eventId)
+    {
+        RSVP storage rsvp = eventRSVPs[_eventId][_attendee];
+        require(rsvp.status == RSVPStatus.PENDING, "RSVP is not pending approval");
+
+        Event storage eventData = events[_eventId];
+        RSVPStatus oldStatus = rsvp.status;
+
+        if (_approve) {
+            if (eventData.maxAttendees == 0 || eventData.confirmedCount < eventData.maxAttendees) {
+                rsvp.status = RSVPStatus.CONFIRMED;
+                eventData.confirmedCount++;
+                eventAttendees[_eventId].push(_attendee);
+            } else {
+                rsvp.status = RSVPStatus.WAITLISTED;
+                eventData.waitlistCount++;
+                eventWaitlist[_eventId].push(_attendee);
+            }
+        } else {
+            rsvp.status = RSVPStatus.CANCELLED;
+        }
+
+        emit RSVPStatusChanged(_eventId, _attendee, oldStatus, rsvp.status);
+    }
 }
