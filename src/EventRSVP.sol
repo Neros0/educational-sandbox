@@ -376,4 +376,17 @@ contract EventRSVP {
     function getTotalEvents() external view returns (uint256) {
         return totalEvents;
     }
+
+    /**
+     * @dev Helper function to remove address from array
+     */
+    function _removeFromArray(address[] storage array, address element) internal {
+        for (uint256 i = 0; i < array.length; i++) {
+            if (array[i] == element) {
+                array[i] = array[array.length - 1];
+                array.pop();
+                break;
+            }
+        }
+    }
 }
