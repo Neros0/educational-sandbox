@@ -285,4 +285,13 @@ contract EventRSVP {
         eventData.status = _status;
         emit EventStatusChanged(_eventId, _status);
     }
+
+    /**
+     * @dev Get event details
+     * @param _eventId Event ID
+     * @return Event struct
+     */
+    function getEvent(uint256 _eventId) external view validEvent(_eventId) returns (Event memory) {
+        return events[_eventId];
+    }
 }
