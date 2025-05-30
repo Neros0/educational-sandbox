@@ -313,4 +313,13 @@ contract EventRSVP {
     function getEventAttendees(uint256 _eventId) external view validEvent(_eventId) returns (address[] memory) {
         return eventAttendees[_eventId];
     }
+
+    /**
+     * @dev Get waitlisted users for an event
+     * @param _eventId Event ID
+     * @return Array of waitlisted addresses
+     */
+    function getEventWaitlist(uint256 _eventId) external view validEvent(_eventId) returns (address[] memory) {
+        return eventWaitlist[_eventId];
+    }
 }
