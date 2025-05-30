@@ -83,4 +83,54 @@ contract EventRSVP {
         require(events[_eventId].organizer == msg.sender, "Only organizer can perform this action");
         _;
     }
+
+    /**
+     * @dev Create a new event
+     * @param _title Event title
+     * @param _description Event description
+     * @param _location Event location
+     * @param _startTime Event start timestamp
+     * @param _endTime Event end timestamp
+     * @param _maxAttendees Maximum number of attendees (0 for unlimited)
+     * @param _requiresApproval Whether RSVPs need organizer approval
+     */
+    function createEvent(
+        string memory _title,
+        string memory _description,
+        string memory _location,
+        uint256 _startTime,
+        uint256 _endTime,
+        uint256 _maxAttendees,
+        bool _requiresApproval
+    ) external {
+        require(bytes(_title).length > 0, "Title cannot be empty");
+        require(_startTime > block.timestamp + MIN_ADVANCE_NOTICE, "Event must be scheduled in advance");
+        require(_endTime > _startTime, "End time must be after start time");
+        require(_endTime - _startTime <= MAX_EVENT_DURATION, "Event duration too long");
+
+        uint256 eventId = nextEventId;
+        nextEventId++;
+
+        Event memory newEvent = Event({
+            id: eventId,
+            organizer: msg.sender,
+            title: _title,
+            description: _description,
+            location: _location,
+            startTime: _startTime,
+            endTime: _endTime,
+            maxAttendees: _maxAttendees,
+            confirmedCount: 0,
+            waitlistCount: 0,
+            requiresApproval: _requiresApproval,
+            status: EventStatus.UPCOMING,
+            createdAt: block.timestamp
+        });
+
+        events.push(newEvent);
+        organizerEvents[msg.sender].push(eventId);
+        totalEvents++;
+
+        emit EventCreated(eventId, msg.sender, _title, _startTime, _maxAttendees);
+    }
 }
