@@ -13,4 +13,8 @@ contract NameRegistry {
         nameToAddress[name] = msg.sender;
         addressToName[msg.sender] = name;
     }
+
+    function getName(address user) external view returns (bytes32) {
+        return addressToName[user];
+    }
 }
