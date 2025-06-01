@@ -9,4 +9,8 @@ contract GlobalCounter {
     function increment() external {
         count++;
     }
+
+    function getCount() external view returns (uint256) {
+        return count;
+    }
 }
