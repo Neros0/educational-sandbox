@@ -11,4 +11,17 @@ contract SimplePoll {
     constructor(bytes32 _question) {
         question = _question;
     }
+
+    function vote(bool _vote) external {
+        require(!hasVoted[msg.sender], "Already voted");
+
+        votes[msg.sender] = _vote;
+        hasVoted[msg.sender] = true;
+
+        if (_vote) {
+            yesCount++;
+        } else {
+            noCount++;
+        }
+    }
 }
