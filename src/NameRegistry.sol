@@ -8,7 +8,6 @@ contract NameRegistry {
 
     function registerName(bytes32 name) external {
         require(nameToAddress[name] == address(0), "Name taken");
-        require(addressToName[msg.sender] == bytes32(0), "Already registered");
 
         nameToAddress[name] = msg.sender;
         addressToName[msg.sender] = name;
