@@ -7,4 +7,8 @@ contract SimplePoll {
     mapping(address => bool) public hasVoted;
     uint256 public yesCount;
     uint256 public noCount;
+
+    constructor(bytes32 _question) {
+        question = _question;
+    }
 }
