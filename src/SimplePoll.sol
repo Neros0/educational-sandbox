@@ -24,4 +24,8 @@ contract SimplePoll {
             noCount++;
         }
     }
+
+    function getResults() external view returns (uint256 yes, uint256 no) {
+        return (yesCount, noCount);
+    }
 }
