@@ -7,4 +7,8 @@ contract StatusBoard {
     function updateStatus(bytes32 status) external {
         statuses[msg.sender] = status;
     }
+
+    function getStatus(address user) external view returns (bytes32) {
+        return statuses[user];
+    }
 }
