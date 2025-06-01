@@ -5,4 +5,8 @@ pragma solidity ^0.8.19;
 contract GlobalCounter {
     // @notice The number of times this contract has been incremented
     uint256 public count;
+
+    function increment() external {
+        count++;
+    }
 }
