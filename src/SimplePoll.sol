@@ -13,8 +13,6 @@ contract SimplePoll {
     }
 
     function vote(bool _vote) external {
-        require(!hasVoted[msg.sender], "Already voted");
-
         votes[msg.sender] = _vote;
         hasVoted[msg.sender] = true;
 
