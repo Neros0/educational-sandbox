@@ -8,4 +8,9 @@ contract MessageWall {
     function leaveMessage(address recipient, bytes32 message) external {
         messages[msg.sender][recipient] = message;
     }
+
+    // Read message from someone
+    function readMessage(address sender) external view returns (bytes32) {
+        return messages[sender][msg.sender];
+    }
 }
