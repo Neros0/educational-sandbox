@@ -7,4 +7,8 @@ contract AttendanceTracker {
     function markAttendance(bytes32 eventId) external {
         attendance[eventId][msg.sender] = true;
     }
+
+    function checkAttendance(bytes32 eventId, address user) external view returns (bool) {
+        return attendance[eventId][user];
+    }
 }
