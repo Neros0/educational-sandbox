@@ -9,4 +9,9 @@ contract AccessControl {
         superAdmin = msg.sender;
         roles[msg.sender] = 2;
     }
+
+    function setRole(address _user, uint8 _role) external {
+        require(_role <= 2, "Invalid role");
+        roles[_user] = _role;
+    }
 }
