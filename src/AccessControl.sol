@@ -14,4 +14,9 @@ contract AccessControl {
         require(_role <= 2, "Invalid role");
         roles[_user] = _role;
     }
+
+    function adminOnlyFunction() external view returns (string memory) {
+        require(roles[msg.sender] == 2, "Admin only");
+        return "Admin access granted";
+    }
 }
