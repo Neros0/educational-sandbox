@@ -14,7 +14,6 @@ contract SimplePoll {
 
     function vote(bool _vote) external {
         votes[msg.sender] = _vote;
-        hasVoted[msg.sender] = true;
 
         if (_vote) {
             yesCount++;
