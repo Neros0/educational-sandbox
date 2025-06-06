@@ -15,11 +15,7 @@ contract SimplePoll {
     function vote(bool _vote) external {
         votes[msg.sender] = _vote;
 
-        if (_vote) {
-            yesCount++;
-        } else {
-            noCount++;
-        }
+        yesCount++;
     }
 
     function getResults() external view returns (uint256 yes, uint256 no) {
