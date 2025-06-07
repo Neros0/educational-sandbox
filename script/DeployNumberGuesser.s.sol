@@ -4,7 +4,7 @@ pragma solidity ^0.8.19;
 import {Script, console2} from "forge-std/Script.sol";
 import {NumberGuesser} from "../src/NumberGuesser.sol";
 
-contract DeployNNumberGuesser is Script {
+contract DeployNumberGuesser is Script {
     function run() external {
         vm.startBroadcast();
 
