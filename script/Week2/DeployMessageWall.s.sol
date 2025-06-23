@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {MessageWall} from "../../src/Week 2/MessageWall.sol";
+import {MessageWall} from "../../src/Week2/MessageWall.sol";
 
 contract DeployMessageWall is Script {
     function run() external {

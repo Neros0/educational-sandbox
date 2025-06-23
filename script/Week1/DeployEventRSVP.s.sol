@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {EventRSVP} from "../../src/Week 1/EventRSVP.sol";
+import {EventRSVP} from "../../src/Week1/EventRSVP.sol";
 
 contract DeployEventRSVP is Script {
     function run() external {

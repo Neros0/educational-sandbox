@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {SubscriptionManager} from "../../src/Week 3/SubscriptionManager.sol";
+import {SubscriptionManager} from "../../src/Week3/SubscriptionManager.sol";
 
 contract DeploySubscriptionManager is Script {
     function run() external {

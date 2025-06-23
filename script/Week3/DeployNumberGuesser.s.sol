@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {NumberGuesser} from "../../src/Week 3/NumberGuesser.sol";
+import {NumberGuesser} from "../../src/Week3/NumberGuesser.sol";
 
 contract DeployNumberGuesser is Script {
     function run() external {

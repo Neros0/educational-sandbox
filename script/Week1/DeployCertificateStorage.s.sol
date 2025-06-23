@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {CertificateStorage} from "../../src/Week 1/CertificateStorage.sol";
+import {CertificateStorage} from "../../src/Week1/CertificateStorage.sol";
 
 contract DeployCertificateStorage is Script {
     function run() external {

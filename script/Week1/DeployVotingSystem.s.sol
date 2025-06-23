@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {VotingSystem} from "../../src/Week 1/VotingSystem.sol";
+import {VotingSystem} from "../../src/Week1/VotingSystem.sol";
 
 contract DeployVotingSystem is Script {
     function run() external {

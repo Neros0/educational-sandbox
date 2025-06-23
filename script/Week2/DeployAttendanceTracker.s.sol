@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {AttendanceTracker} from "../../src/Week 2/AttendanceTracker.sol";
+import {AttendanceTracker} from "../../src/Week2/AttendanceTracker.sol";
 
 contract DeployAttendanceTracker is Script {
     function run() external {
