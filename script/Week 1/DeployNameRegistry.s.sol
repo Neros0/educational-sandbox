@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {NameRegistry} from "../src/Week 1/NameRegistry.sol";
+import {NameRegistry} from "../../src/Week 1/NameRegistry.sol";
 
 contract DeployNameRegistry is Script {
     function run() external {
