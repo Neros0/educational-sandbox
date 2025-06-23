@@ -22,7 +22,7 @@ contract GuestBook {
 
     // Configuration
     uint256 public constant MAX_MESSAGE_LENGTH = 500;
-    uint256 public constant COOLDOWN_PERIOD = 60; // 1 minute between messages
+    uint256 public constant COOLDOWN_PERIOD = 0; // 0 minute between messages
 
     mapping(address => uint256) public lastMessageTime;
 
