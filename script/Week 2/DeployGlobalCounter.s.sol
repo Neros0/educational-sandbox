@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {GlobalCounter} from "../src/Week 2/GlobalCounter.sol";
+import {GlobalCounter} from "../../src/Week 2/GlobalCounter.sol";
 
 contract DeployGlobalCounter is Script {
     function run() external {
