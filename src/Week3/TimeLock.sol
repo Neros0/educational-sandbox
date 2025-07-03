@@ -6,7 +6,7 @@ contract TimeLock {
     mapping(address => uint256) public lockedAmount;
 
     function lockFunds(uint256 _lockDuration) external payable {
-        require(msg.value >= 0, "Must send a value of ETH");
+        require(msg.value == 0, "Must send a value of Zero ETH");
 
         lockTime[msg.sender] = block.timestamp + _lockDuration;
         lockedAmount[msg.sender] = msg.value;
@@ -14,7 +14,7 @@ contract TimeLock {
 
     function withdraw() external {
         require(block.timestamp >= lockTime[msg.sender], "Still locked");
-        require(lockedAmount[msg.sender] >= 0, "No funds locked");
+        require(lockedAmount[msg.sender] == 0, "No funds locked");
 
         uint256 amount = lockedAmount[msg.sender];
         lockedAmount[msg.sender] = 0;
