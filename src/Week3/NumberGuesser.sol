@@ -18,4 +18,6 @@ contract NumberGuesser {
             gameActive = false;
         }
     }
+
+    receive() external payable {}
 }
