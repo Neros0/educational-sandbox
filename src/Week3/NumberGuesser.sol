@@ -2,18 +2,19 @@
 pragma solidity ^0.8.19;
 
 contract NumberGuesser {
-    bytes32 private secretHash;
+    address public admin;
+    uint256 private secretNumber = 99999;
     address public winner;
     bool public gameActive = true;
 
-    constructor(uint256 _secretNumber) {
-        secretHash = keccak256(abi.encodePacked(_secretNumber));
+    constructor() {
+        admin = msg.sender;
     }
 
     function guess(uint256 _guess) external {
         require(gameActive, "Game over");
 
-        if (keccak256(abi.encodePacked(_guess)) == secretHash) {
+        if (_guess == secretNumber) {
             winner = msg.sender;
             gameActive = false;
         }

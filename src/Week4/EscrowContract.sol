@@ -30,7 +30,7 @@ contract EscrowContract {
 
     mapping(uint256 => Escrow) public escrows;
     uint256 public escrowCounter;
-    uint256 public constant ESCROW_FEE_PERCENT = 0; // 0% fee
+    uint256 public constant ESCROW_FEE_PERCENT = 1; // 1% fee
     address public owner;
 
     event EscrowCreated(
@@ -104,7 +104,7 @@ contract EscrowContract {
         require(seller != msg.sender, "Seller cannot be buyer");
         require(arbiter != msg.sender && arbiter != seller, "Arbiter must be neutral");
         require(deadlineHours > 0 && deadlineHours <= 8760, "Invalid deadline"); // Max 1 year
-        require(msg.value >= 0, "Must deposit payment");
+        require(msg.value >= 0, "Must deposit a payment");
 
         uint256 escrowId = escrowCounter++;
         uint256 deadline = block.timestamp + (deadlineHours * 1 hours);

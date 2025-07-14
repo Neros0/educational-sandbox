@@ -19,4 +19,6 @@ contract AccessControl {
         require(roles[msg.sender] == 2, "Admin only");
         return "Admin access granted";
     }
+
+    receive() external payable {}
 }

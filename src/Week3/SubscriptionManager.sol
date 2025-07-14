@@ -18,10 +18,10 @@ contract SubscriptionManager {
     mapping(address => UserSubscription) public userSubscriptions;
     mapping(address => uint256) public balances;
     uint256 public planCount;
-    address public owner;
+    address public admin;
 
     constructor() {
-        owner = msg.sender;
+        admin = msg.sender;
     }
 
     function createPlan(uint256 _price, uint256 _duration) external {
@@ -42,7 +42,7 @@ contract SubscriptionManager {
 
         userSubscriptions[msg.sender] = UserSubscription({planId: _planId, expiresAt: newExpiry, active: true});
 
-        balances[owner] += plan.price;
+        balances[admin] += plan.price;
 
         // Refund excess
         if (msg.value > plan.price) {
@@ -60,4 +60,6 @@ contract SubscriptionManager {
         balances[msg.sender] = 0;
         payable(msg.sender).transfer(amount);
     }
+
+    receive() external payable {}
 }

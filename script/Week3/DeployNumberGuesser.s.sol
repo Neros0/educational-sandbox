@@ -9,7 +9,7 @@ contract DeployNumberGuesser is Script {
         vm.startBroadcast();
 
         // Deploy the NumberGuesser contract
-        address numberGuesser = address(new NumberGuesser(99999999999999999999999999));
+        address numberGuesser = address(new NumberGuesser());
 
         console2.log("NumberGuesser deployed at:", numberGuesser);
 
