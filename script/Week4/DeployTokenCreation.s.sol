@@ -4,7 +4,7 @@ pragma solidity ^0.8.19;
 import {Script, console2} from "forge-std/Script.sol";
 import {TokenFactory} from "../../src/Week4/TokenCreation.sol";
 
-contract DeployTokenFactory is Script {
+contract DeployTokenCreation is Script {
     function run() external {
         vm.startBroadcast();
 
