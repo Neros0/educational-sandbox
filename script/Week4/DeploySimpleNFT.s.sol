@@ -9,7 +9,7 @@ contract DeploySimpleNFT is Script {
         vm.startBroadcast();
 
         // Deploy the SimpleNFT contract
-        address simpleNFT = address(new SimpleNFT("SimpleNFT", "SNFT", "https://example.com/metadata/", 0));
+        address simpleNFT = address(new SimpleNFT("Simple Cantina NFT", "CNFT", "https://example.com/metadata", 0));
 
         console2.log("SimpleNFT deployed at:", simpleNFT);
 
