@@ -9,7 +9,7 @@ contract DeployRiddleHunt4 is Script {
         vm.startBroadcast();
 
         // Deploy the RiddleHunt4 contract
-        address riddleHunt4Contract = address(new RiddleHunt4("AQUA"));
+        address riddleHunt4Contract = address(new RiddleHunt4("SILVER"));
 
         console2.log("RiddleHunt4 deployed at:", riddleHunt4Contract);
 
