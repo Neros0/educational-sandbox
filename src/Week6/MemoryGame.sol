@@ -25,7 +25,7 @@ contract MemoryGame {
     address[] public leaderboard;
     mapping(address => uint256) public leaderboardIndex;
 
-    uint8 public constant MAX_ROUNDS = 10;
+    uint8 public constant MAX_ROUNDS = 99;
     uint8 public constant STARTING_LIVES = 3;
     uint8 public constant STARTING_PATTERN_LENGTH = 3;
     uint8 public constant NUM_COLORS = 4; // 0, 1, 2, 3 representing different colors
