@@ -8,4 +8,9 @@ contract RiddleHunt8 {
     mapping(address => uint256) public attempts;
 
     event Attempt(address indexed player, bool correct, uint256 attemptCount);
+
+    constructor(string memory answer) {
+        // Store hash of the correct answer in uppercase for consistency
+        answerHash = keccak256(abi.encodePacked(_toUpper(answer)));
+    }
 }
