@@ -6,4 +6,6 @@ contract RiddleHunt8 {
     string public constant hint = "The answer is a type of dinosaur";
 
     mapping(address => uint256) public attempts;
+
+    event Attempt(address indexed player, bool correct, uint256 attemptCount);
 }
