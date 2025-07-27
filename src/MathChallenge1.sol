@@ -169,4 +169,16 @@ contract MathChallenge1 {
     // - difficulty() returns the difficulty level
     // - attempts(address) returns attempt count for a specific student
     // - solved(address) returns solved status for a specific student
+
+    /*//////////////////////////////////////////////////////////////
+                        POTENTIAL IMPROVEMENTS
+    //////////////////////////////////////////////////////////////*/
+
+    // Future enhancements could include:
+    // 1. Access control for updating hints or problem statements
+    // 2. Time-based challenges with deadlines
+    // 3. Partial credit for close answers
+    // 4. Integration with educational token rewards
+    // 5. Batch operations for multiple problem deployments
+    // 6. Student reputation system based on solving speed/attempts
 }
