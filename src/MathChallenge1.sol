@@ -9,4 +9,6 @@ contract MathChallenge1 {
 
     mapping(address => uint256) public attempts;
     mapping(address => bool) public solved;
+
+    event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
 }
