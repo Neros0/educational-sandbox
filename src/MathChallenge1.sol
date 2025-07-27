@@ -6,4 +6,7 @@ contract MathChallenge1 {
     uint256 public immutable correctAnswer;
     string public hint;
     uint256 public difficulty; // 1-5 scale
+
+    mapping(address => uint256) public attempts;
+    mapping(address => bool) public solved;
 }
