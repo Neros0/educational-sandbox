@@ -12,4 +12,11 @@ contract MathChallenge1 {
 
     event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
     event ProblemSolved(address indexed student, uint256 finalAttempts);
+
+    constructor(string memory _problem, uint256 _answer, string memory _hint, uint256 _difficulty) {
+        problem = _problem;
+        correctAnswer = _answer;
+        hint = _hint;
+        difficulty = _difficulty;
+    }
 }
