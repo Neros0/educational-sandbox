@@ -84,4 +84,30 @@ contract MathChallenge1 {
         // Note: No validation on difficulty range to keep deployment gas costs low
         // Consider adding require(_difficulty >= 1 && _difficulty <= 5) for stricter validation
     }
+
+    function submitAnswer(uint256 answer) external {
+        // Prevent multiple solutions by the same student
+        // This maintains the integrity of the "first solve" tracking
+        require(!solved[msg.sender], "Already solved this problem");
+
+        // Increment attempt counter before processing
+        // This ensures the count is accurate even if the transaction reverts later
+        attempts[msg.sender]++;
+
+        // Check if the submitted answer matches the correct answer
+        bool correct = (answer == correctAnswer);
+
+        // Process correct answer
+        if (correct) {
+            // Mark as solved to prevent further attempts
+            solved[msg.sender] = true;
+
+            // Emit success event with final attempt count
+            emit ProblemSolved(msg.sender, attempts[msg.sender]);
+        }
+
+        // Always emit attempt event for tracking and analytics
+        // This provides a complete audit trail of all submission attempts
+        emit Attempt(msg.sender, answer, correct, attempts[msg.sender]);
+    }
 }
