@@ -53,6 +53,13 @@ contract MathChallenge1 {
      * @param attemptCount The total number of attempts this student has made
      */
     event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
+
+    /**
+     * @notice Emitted when a student successfully solves the problem
+     * @dev Marks the completion milestone for analytics and potential reward distribution
+     * @param student The address of the student who solved the problem
+     * @param finalAttempts The total number of attempts it took to solve the problem
+     */
     event ProblemSolved(address indexed student, uint256 finalAttempts);
 
     constructor(string memory _problem, uint256 _answer, string memory _hint, uint256 _difficulty) {
