@@ -62,10 +62,26 @@ contract MathChallenge1 {
      */
     event ProblemSolved(address indexed student, uint256 finalAttempts);
 
+    /*//////////////////////////////////////////////////////////////
+                              CONSTRUCTOR
+    //////////////////////////////////////////////////////////////*/
+
+    /**
+     * @notice Initializes a new math challenge with problem details
+     * @dev Sets up the problem parameters that define the challenge
+     * @param _problem The mathematical problem statement as a string
+     * @param _answer The correct numerical answer to the problem
+     * @param _hint A helpful hint for students struggling with the problem
+     * @param _difficulty The difficulty level (1-5 scale) for categorization
+     */
     constructor(string memory _problem, uint256 _answer, string memory _hint, uint256 _difficulty) {
+        // Initialize problem parameters
         problem = _problem;
-        correctAnswer = _answer;
+        correctAnswer = _answer; // Immutable - cannot be changed after deployment
         hint = _hint;
         difficulty = _difficulty;
+
+        // Note: No validation on difficulty range to keep deployment gas costs low
+        // Consider adding require(_difficulty >= 1 && _difficulty <= 5) for stricter validation
     }
 }
