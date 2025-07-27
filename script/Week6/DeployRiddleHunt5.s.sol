@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {RiddleHunt5} from "../../src/Week6/RiddleHunt5.sol";
+import {RiddleHunt5} from "../../src/Week7/RiddleHunt5.sol";
 
 contract DeployRiddleHunt5 is Script {
     function run() external {
