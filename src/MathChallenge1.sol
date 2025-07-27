@@ -157,4 +157,16 @@ contract MathChallenge1 {
             difficulty // Problem difficulty for context
         );
     }
+
+    /*//////////////////////////////////////////////////////////////
+                            VIEW FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+
+    // Note: All storage variables are already public, creating automatic getter functions:
+    // - problem() returns the problem statement
+    // - correctAnswer() returns the answer (consider making this private in production)
+    // - hint() returns the hint
+    // - difficulty() returns the difficulty level
+    // - attempts(address) returns attempt count for a specific student
+    // - solved(address) returns solved status for a specific student
 }
