@@ -28,7 +28,16 @@ contract MathChallenge1 {
     /// @dev 1 = Very Easy, 2 = Easy, 3 = Medium, 4 = Hard, 5 = Very Hard
     uint256 public difficulty;
 
+    /*//////////////////////////////////////////////////////////////
+                                MAPPINGS
+    //////////////////////////////////////////////////////////////*/
+
+    /// @notice Tracks the number of attempts each student has made
+    /// @dev Maps student address to their attempt count for this specific problem
     mapping(address => uint256) public attempts;
+
+    /// @notice Tracks whether each student has successfully solved the problem
+    /// @dev Maps student address to boolean indicating if they've found the correct answer
     mapping(address => bool) public solved;
 
     event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
