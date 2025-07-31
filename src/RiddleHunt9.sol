@@ -6,4 +6,6 @@ contract RiddleHunt9 {
     string public constant hint = "The answer is a type of food";
 
     mapping(address => uint256) public attempts;
+
+    event Attempt(address indexed player, bool correct, uint256 attemptCount);
 }
