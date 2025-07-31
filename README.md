@@ -48,17 +48,23 @@ forge test
 ## 📁 Project Structure
 ```text
 ├── src/
-│   ├── PersonalRegistry.sol
-│   ├── Guestbook.sol
-│   ├── CertificateStorage.sol
-│   └── [additional contracts]
+│   ├── Week1/
+│   ├── Week2/
+│   ├── Week3/
+│   |── Week4/
+|   |── Week5/
+│   |── Week6/
+|   └── Week7/
 ├── test/
-│   ├── PersonalRegistry.t.sol
-│   ├── Guestbook.t.sol
 │   └── [test files]
 ├── script/
-│   ├── Deploy.s.sol
-│   └── [deployment scripts]
+│   ├── Week1/
+│   ├── Week2/
+│   ├── Week3/
+│   |── Week4/
+|   |── Week5/
+│   |── Week6/
+|   └── Week7/
 ├── lib/
 └── README.md
 ```
