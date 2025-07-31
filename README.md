@@ -56,8 +56,6 @@ forge test
 │   |── Week6/
 |   └── Week7/
 ├── test/
-│   ├── PersonalRegistry.t.sol
-│   ├── Guestbook.t.sol
 │   └── [test files]
 ├── script/
 │   ├── Deploy.s.sol
