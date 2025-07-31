@@ -13,4 +13,11 @@ contract RiddleHunt9 {
         // Store hash of the correct answer in uppercase for consistency
         answerHash = keccak256(abi.encodePacked(_toUpper(answer)));
     }
+
+    function submitAnswer(string calldata answer) external {
+        attempts[msg.sender]++;
+
+        bool correct = keccak256(abi.encodePacked(_toUpper(answer))) == answerHash;
+        emit Attempt(msg.sender, correct, attempts[msg.sender]);
+    }
 }
