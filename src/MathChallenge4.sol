@@ -27,4 +27,7 @@ contract MathChallenge4 {
     /// @notice Difficulty rating of the problem on a 1-5 scale
     /// @dev 1 = Very Easy, 2 = Easy, 3 = Medium, 4 = Hard, 5 = Very Hard
     uint256 public difficulty = 2;
+
+    mapping(address => uint256) public attempts;
+    mapping(address => bool) public solved;
 }
