@@ -41,4 +41,5 @@ contract MathChallenge4 {
     mapping(address => bool) public solved;
 
     event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
+    event ProblemSolved(address indexed student, uint256 finalAttempts);
 }
