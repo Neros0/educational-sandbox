@@ -7,18 +7,18 @@ pragma solidity ^0.8.19;
  * @dev This contract allows deployment of individual math problems with tracking of student attempts and solutions
  * @custom:version 1.0.0
  */
-contract MathChallenge1 {
+contract MathChallenge2 {
     /*//////////////////////////////////////////////////////////////
                                 STORAGE
     //////////////////////////////////////////////////////////////*/
 
     /// @notice The mathematical problem statement presented to students
     /// @dev Stored as a string to allow complex mathematical expressions and formatting
-    string public problem = "What is 2^8 + 3^4 - 2^2?";
+    string public problem = "What is 2^8 + 4^1 - 2^1?";
 
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
-    uint256 public immutable correctAnswer = 333; // 256 + 81 - 4 = 333
+    uint256 public immutable correctAnswer = 258; // 256 + 4 - 2 = 258
 
     /// @notice A hint to help students solve the problem
     /// @dev Can be updated by adding a setter function if needed for dynamic hints
