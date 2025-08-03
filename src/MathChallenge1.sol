@@ -14,19 +14,19 @@ contract MathChallenge1 {
 
     /// @notice The mathematical problem statement presented to students
     /// @dev Stored as a string to allow complex mathematical expressions and formatting
-    string public problem;
+    string public problem = "What is 2^8 + 3^4 - 5^2?";
 
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
-    uint256 public immutable correctAnswer;
+    uint256 public immutable correctAnswer = 312; // 256 + 81 - 25 = 312
 
     /// @notice A hint to help students solve the problem
     /// @dev Can be updated by adding a setter function if needed for dynamic hints
-    string public hint;
+    string public hint = "Break it down: calculate each exponent separately, then add and subtract";
 
     /// @notice Difficulty rating of the problem on a 1-5 scale
     /// @dev 1 = Very Easy, 2 = Easy, 3 = Medium, 4 = Hard, 5 = Very Hard
-    uint256 public difficulty;
+    uint256 public difficulty = 2;
 
     /*//////////////////////////////////////////////////////////////
                                 MAPPINGS
@@ -67,22 +67,11 @@ contract MathChallenge1 {
     //////////////////////////////////////////////////////////////*/
 
     /**
-     * @notice Initializes a new math challenge with problem details
-     * @dev Sets up the problem parameters that define the challenge
-     * @param _problem The mathematical problem statement as a string
-     * @param _answer The correct numerical answer to the problem
-     * @param _hint A helpful hint for students struggling with the problem
-     * @param _difficulty The difficulty level (1-5 scale) for categorization
+     * @notice Initializes a new math challenge with hardcoded problem details
+     * @dev No parameters needed - all values are set directly in storage declarations
      */
-    constructor(string memory _problem, uint256 _answer, string memory _hint, uint256 _difficulty) {
-        // Initialize problem parameters
-        problem = _problem;
-        correctAnswer = _answer; // Immutable - cannot be changed after deployment
-        hint = _hint;
-        difficulty = _difficulty;
-
-        // Note: No validation on difficulty range to keep deployment gas costs low
-        // Consider adding require(_difficulty >= 1 && _difficulty <= 5) for stricter validation
+    constructor() {
+        // No initialization needed - all values are set in storage declarations above
     }
 
     /*//////////////////////////////////////////////////////////////
