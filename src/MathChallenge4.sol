@@ -121,4 +121,16 @@ contract MathChallenge4 {
         // This provides a complete audit trail of all submission attempts
         emit Attempt(msg.sender, answer, correct, attempts[msg.sender]);
     }
+
+    function getProgress(address student)
+        external
+        view
+        returns (uint256 attemptCount, bool hasSolved, uint256 problemDifficulty)
+    {
+        return (
+            attempts[student], // Number of attempts made
+            solved[student], // Solution status
+            difficulty // Problem difficulty for context
+        );
+    }
 }
