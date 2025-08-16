@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {MathChallenge4} from "../../src/MathChallenge4.sol";
+import {MathChallenge4} from "../../src/Week8/MathChallenge4.sol";
 
 contract DeployMath4 is Script {
     function run() external {
