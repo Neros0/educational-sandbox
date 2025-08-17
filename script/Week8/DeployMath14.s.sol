@@ -2,16 +2,16 @@
 pragma solidity ^0.8.19;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {MathChallenge7} from "../../src/Week8/MathChallenge7.sol";
+import {MathChallenge14} from "../../src/Week9/MathChallenge14.sol";
 
-contract DeployMath7 is Script {
+contract DeployMath14 is Script {
     function run() external {
         vm.startBroadcast();
 
-        // Deploy the MathChallenge7 contract
-        address mathChallengeContract = address(new MathChallenge7());
+        // Deploy the MathChallenge14 contract
+        address mathChallengeContract = address(new MathChallenge14());
 
-        console2.log("MathChallenge7 deployed at:", mathChallengeContract);
+        console2.log("MathChallenge14 deployed at:", mathChallengeContract);
 
         vm.stopBroadcast();
     }
