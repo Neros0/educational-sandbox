@@ -73,4 +73,52 @@ contract MathChallenge16 {
     constructor() {
         // No initialization needed - all values are set in storage declarations above
     }
+
+    /*//////////////////////////////////////////////////////////////
+                            EXTERNAL FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+
+    /**
+     * @notice Allows students to submit their answer to the math problem
+     * @dev Tracks attempts, validates answers, and emits appropriate events
+     * @param answer The numerical answer the student believes is correct
+     *
+     * Requirements:
+     * - Student must not have already solved this problem
+     * - Function will increment attempt counter regardless of correctness
+     *
+     * Effects:
+     * - Increments the student's attempt counter
+     * - Sets solved status to true if answer is correct
+     * - Emits Attempt event for all submissions
+     * - Emits ProblemSolved event for correct answers
+     *
+     * @custom:emits Attempt
+     * @custom:emits ProblemSolved (if answer is correct)
+     */
+    function submitAnswer(uint256 answer) external {
+        // Prevent multiple solutions by the same student
+        // This maintains the integrity of the "first solve" tracking
+        require(!solved[msg.sender], "Already solved this problem");
+
+        // Increment attempt counter before processing
+        // This ensures the count is accurate even if the transaction reverts later
+        attempts[msg.sender]++;
+
+        // Check if the submitted answer matches the correct answer
+        bool correct = (answer == correctAnswer);
+
+        // Process correct answer
+        if (correct) {
+            // Mark as solved to prevent further attempts
+            solved[msg.sender] = true;
+
+            // Emit success event with final attempt count
+            emit ProblemSolved(msg.sender, attempts[msg.sender]);
+        }
+
+        // Always emit attempt event for tracking and analytics
+        // This provides a complete audit trail of all submission attempts
+        emit Attempt(msg.sender, answer, correct, attempts[msg.sender]);
+    }
 }
