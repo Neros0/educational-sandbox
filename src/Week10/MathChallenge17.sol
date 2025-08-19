@@ -61,4 +61,16 @@ contract MathChallenge17 {
      * @param finalAttempts The total number of attempts it took to solve the problem
      */
     event ProblemSolved(address indexed student, uint256 finalAttempts);
+
+    /*//////////////////////////////////////////////////////////////
+                              CONSTRUCTOR
+    //////////////////////////////////////////////////////////////*/
+
+    /**
+     * @notice Initializes a new math challenge with hardcoded problem details
+     * @dev No parameters needed - all values are set directly in storage declarations
+     */
+    constructor() {
+        // No initialization needed - all values are set in storage declarations above
+    }
 }
