@@ -27,4 +27,16 @@ contract MathChallenge18 {
     /// @notice Difficulty rating of the problem on a 1-5 scale
     /// @dev 1 = Very Easy, 2 = Easy, 3 = Medium, 4 = Hard, 5 = Very Hard
     uint256 public difficulty = 2;
+
+    /*//////////////////////////////////////////////////////////////
+                                MAPPINGS
+    //////////////////////////////////////////////////////////////*/
+
+    /// @notice Tracks the number of attempts each student has made
+    /// @dev Maps student address to their attempt count for this specific problem
+    mapping(address => uint256) public attempts;
+
+    /// @notice Tracks whether each student has successfully solved the problem
+    /// @dev Maps student address to boolean indicating if they've found the correct answer
+    mapping(address => bool) public solved;
 }
