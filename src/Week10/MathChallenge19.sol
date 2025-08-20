@@ -20,5 +20,7 @@ contract MathChallenge19 {
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
     uint256 public immutable correctAnswer = 218; // 256 + 10 - 64 + 3 + 3 + 1 + 1 + 6 + 1= 218
 
+    /// @notice A hint to help students solve the problem
+    /// @dev Can be updated by adding a setter function if needed for dynamic hints
     string public hint = "Break it down: calculate each exponent separately, then add and subtract";
 }
