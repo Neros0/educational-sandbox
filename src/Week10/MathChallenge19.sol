@@ -36,5 +36,7 @@ contract MathChallenge19 {
     /// @dev Maps student address to their attempt count for this specific problem
     mapping(address => uint256) public attempts;
 
+    /// @notice Tracks whether each student has successfully solved the problem
+    /// @dev Maps student address to boolean indicating if they've found the correct answer
     mapping(address => bool) public solved;
 }
