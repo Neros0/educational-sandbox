@@ -54,5 +54,11 @@ contract MathChallenge19 {
      */
     event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
 
+    /**
+     * @notice Emitted when a student successfully solves the problem
+     * @dev Marks the completion milestone for analytics and potential reward distribution
+     * @param student The address of the student who solved the problem
+     * @param finalAttempts The total number of attempts it took to solve the problem
+     */
     event ProblemSolved(address indexed student, uint256 finalAttempts);
 }
