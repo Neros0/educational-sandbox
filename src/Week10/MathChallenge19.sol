@@ -53,4 +53,6 @@ contract MathChallenge19 {
      * @param attemptCount The total number of attempts this student has made
      */
     event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
+
+    event ProblemSolved(address indexed student, uint256 finalAttempts);
 }
