@@ -74,6 +74,28 @@ contract MathChallenge19 {
         // No initialization needed - all values are set in storage declarations above
     }
 
+    /*//////////////////////////////////////////////////////////////
+                            EXTERNAL FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+
+    /**
+     * @notice Allows students to submit their answer to the math problem
+     * @dev Tracks attempts, validates answers, and emits appropriate events
+     * @param answer The numerical answer the student believes is correct
+     *
+     * Requirements:
+     * - Student must not have already solved this problem
+     * - Function will increment attempt counter regardless of correctness
+     *
+     * Effects:
+     * - Increments the student's attempt counter
+     * - Sets solved status to true if answer is correct
+     * - Emits Attempt event for all submissions
+     * - Emits ProblemSolved event for correct answers
+     *
+     * @custom:emits Attempt
+     * @custom:emits ProblemSolved (if answer is correct)
+     */
     function submitAnswer(uint256 answer) external {
         // Prevent multiple solutions by the same student
         // This maintains the integrity of the "first solve" tracking
