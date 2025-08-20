@@ -7,4 +7,6 @@ pragma solidity ^0.8.19;
  * @dev This contract allows deployment of individual math problems with tracking of student attempts and solutions
  * @custom:version 1.0.0
  */
-contract MathChallenge19 {}
+contract MathChallenge19 {
+    string public problem = "What is 2^8 + 10^1 - 4^3 + 3 + 3 + 1 + 1 + 6 + 1?";
+}
