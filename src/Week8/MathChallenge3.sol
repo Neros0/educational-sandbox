@@ -14,11 +14,11 @@ contract MathChallenge3 {
 
     /// @notice The mathematical problem statement presented to students
     /// @dev Stored as a string to allow complex mathematical expressions and formatting
-    string public problem = "What is 2^8 + 5^3 - 6^1?";
+    string public problem = "What is 3^5 + 2^6 - 6^1 + 1?";
 
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
-    uint256 public immutable correctAnswer = 375; // 256 + 125 - 6 = 375
+    uint256 public immutable correctAnswer = 376; // 243 + 64 - 6 + 1 = 376
 
     /// @notice A hint to help students solve the problem
     /// @dev Can be updated by adding a setter function if needed for dynamic hints
