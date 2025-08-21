@@ -19,4 +19,6 @@ contract MathChallenge20 {
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
     uint256 public immutable correctAnswer = 220; // 256 + 10 - 64 + 3 + 3 + 1 + 1 + 6 + 2 + 1 = 220
+
+    string public hint = "Break it down: calculate each exponent separately, then add and subtract";
 }
