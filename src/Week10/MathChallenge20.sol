@@ -14,11 +14,11 @@ contract MathChallenge20 {
 
     /// @notice The mathematical problem statement presented to students
     /// @dev Stored as a string to allow complex mathematical expressions and formatting
-    string public problem = "What is 2^8 + 10^1 - 4^3 + 3 + 3 + 1 + 1 + 6 + 2 + 1?";
+    string public problem = "What is 2^8 + 10^1 - 4^3 + 3 + 3 + 1 + 1 + 6 + 2 + 2?";
 
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
-    uint256 public immutable correctAnswer = 220; // 256 + 10 - 64 + 3 + 3 + 1 + 1 + 6 + 2 + 1 = 220
+    uint256 public immutable correctAnswer = 221; // 256 + 10 - 64 + 3 + 3 + 1 + 1 + 6 + 2 + 2 = 221
 
     /// @notice A hint to help students solve the problem
     /// @dev Can be updated by adding a setter function if needed for dynamic hints
