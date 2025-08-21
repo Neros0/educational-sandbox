@@ -35,4 +35,6 @@ contract MathChallenge20 {
     /// @notice Tracks the number of attempts each student has made
     /// @dev Maps student address to their attempt count for this specific problem
     mapping(address => uint256) public attempts;
+
+    mapping(address => bool) public solved;
 }
