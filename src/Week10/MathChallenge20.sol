@@ -122,6 +122,19 @@ contract MathChallenge20 {
         emit Attempt(msg.sender, answer, correct, attempts[msg.sender]);
     }
 
+    /**
+     * @notice Retrieves comprehensive progress information for a specific student
+     * @dev Provides a consolidated view of student progress without multiple calls
+     * @param student The address of the student whose progress to query
+     * @return attemptCount The total number of attempts made by this student
+     * @return hasSolved Whether the student has successfully solved the problem
+     * @return problemDifficulty The difficulty level of this problem (for context)
+     *
+     * Usage:
+     * - Frontend applications can use this for displaying student dashboards
+     * - Teachers can monitor individual student progress
+     * - Analytics systems can aggregate data across multiple students
+     */
     function getProgress(address student)
         external
         view
