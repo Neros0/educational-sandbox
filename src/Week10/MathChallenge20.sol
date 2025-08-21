@@ -39,4 +39,6 @@ contract MathChallenge20 {
     /// @notice Tracks whether each student has successfully solved the problem
     /// @dev Maps student address to boolean indicating if they've found the correct answer
     mapping(address => bool) public solved;
+
+    event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
 }
