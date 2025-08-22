@@ -14,7 +14,7 @@ contract MathChallenge6 {
 
     /// @notice The mathematical problem statement presented to students
     /// @dev Stored as a string to allow complex mathematical expressions and formatting
-    string public problem = "What is 2^8 + 10^1 - 3^2 + 1?";
+    string public problem = "What is 3^5 + 10^1 - 3^2 + 1?";
 
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
