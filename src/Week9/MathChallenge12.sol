@@ -14,11 +14,11 @@ contract MathChallenge12 {
 
     /// @notice The mathematical problem statement presented to students
     /// @dev Stored as a string to allow complex mathematical expressions and formatting
-    string public problem = "What is 2^8 + 10^1 - 4^3 + 1 + 1 + 1 + 4?";
+    string public problem = "What is 3^5 + 10^1 - 4^2 + 8 + 6 + 3?";
 
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
-    uint256 public immutable correctAnswer = 210; // 256 + 10 - 64 + 1 + 1 + 4 = 210
+    uint256 public immutable correctAnswer = 254; // 243 + 10 - 16 + 8 + 6 + 3 = 254
 
     /// @notice A hint to help students solve the problem
     /// @dev Can be updated by adding a setter function if needed for dynamic hints
@@ -26,7 +26,7 @@ contract MathChallenge12 {
 
     /// @notice Difficulty rating of the problem on a 1-5 scale
     /// @dev 1 = Very Easy, 2 = Easy, 3 = Medium, 4 = Hard, 5 = Very Hard
-    uint256 public difficulty = 2;
+    uint256 public difficulty = 3;
 
     /*//////////////////////////////////////////////////////////////
                                 MAPPINGS
