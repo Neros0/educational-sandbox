@@ -18,7 +18,7 @@ contract MathChallenge12 {
 
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
-    uint256 public immutable correctAnswer = 210; // 256 + 10 - 64 + 1 + 1 + 4 = 210
+    uint256 public immutable correctAnswer = 254; // 243 + 10 - 16 + 8 + 6 + 3 = 254
 
     /// @notice A hint to help students solve the problem
     /// @dev Can be updated by adding a setter function if needed for dynamic hints
