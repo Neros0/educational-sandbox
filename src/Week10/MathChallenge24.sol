@@ -39,4 +39,26 @@ contract MathChallenge24 {
     /// @notice Tracks whether each student has successfully solved the problem
     /// @dev Maps student address to boolean indicating if they've found the correct answer
     mapping(address => bool) public solved;
+
+    /*//////////////////////////////////////////////////////////////
+                                EVENTS
+    //////////////////////////////////////////////////////////////*/
+
+    /**
+     * @notice Emitted when a student submits an answer attempt
+     * @dev Provides comprehensive logging for tracking student progress and analytics
+     * @param student The address of the student making the attempt
+     * @param answer The numerical answer submitted by the student
+     * @param correct Whether the submitted answer was correct
+     * @param attemptCount The total number of attempts this student has made
+     */
+    event Attempt(address indexed student, uint256 answer, bool correct, uint256 attemptCount);
+
+    /**
+     * @notice Emitted when a student successfully solves the problem
+     * @dev Marks the completion milestone for analytics and potential reward distribution
+     * @param student The address of the student who solved the problem
+     * @param finalAttempts The total number of attempts it took to solve the problem
+     */
+    event ProblemSolved(address indexed student, uint256 finalAttempts);
 }
