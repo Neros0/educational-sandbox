@@ -14,11 +14,11 @@ contract MathChallenge32 {
 
     /// @notice The mathematical problem statement presented to students
     /// @dev Stored as a string to allow complex mathematical expressions and formatting
-    string public problem = "What is 3^5 + 10^1 - 4^2 + 10 + 10 + 10 + 10 + 10 + 10?";
+    string public problem = "What is 3^5 + 10^1 - 4^2 + 11 + 11 + 10 + 10 + 10 + 10?";
 
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
-    uint256 public immutable correctAnswer = 287; // 243 + 10 - 16 + 10 + 10 + 10 + 10 + 10 = 287
+    uint256 public immutable correctAnswer = 289; // 243 + 10 - 16 + 11 + 11 + 10 + 10 + 10 + 10 = 289
 
     /// @notice A hint to help students solve the problem
     /// @dev Can be updated by adding a setter function if needed for dynamic hints
