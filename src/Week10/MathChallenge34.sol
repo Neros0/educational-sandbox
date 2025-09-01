@@ -23,4 +23,6 @@ contract MathChallenge34 {
     /// @notice A hint to help students solve the problem
     /// @dev Can be updated by adding a setter function if needed for dynamic hints
     string public hint = "Break it down: calculate each exponent separately, then add and subtract";
+
+    uint256 public difficulty = 4;
 }
