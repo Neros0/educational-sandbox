@@ -19,4 +19,6 @@ contract MathChallenge34 {
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
     uint256 public immutable correctAnswer = 291; // 243 + 10 - 16 + 12 + 11 + 11 + 10 + 10 + 10 = 291
+
+    string public hint = "Break it down: calculate each exponent separately, then add and subtract";
 }
