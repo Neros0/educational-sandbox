@@ -15,4 +15,6 @@ contract MathChallenge34 {
     /// @notice The mathematical problem statement presented to students
     /// @dev Stored as a string to allow complex mathematical expressions and formatting
     string public problem = "What is 3^5 + 10^1 - 4^2 + 12 + 11 + 11 + 10 + 10 + 10?";
+
+    uint256 public immutable correctAnswer = 291; // 243 + 10 - 16 + 12 + 11 + 11 + 10 + 10 + 10 = 291
 }
