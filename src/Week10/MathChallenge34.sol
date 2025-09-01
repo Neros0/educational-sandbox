@@ -7,4 +7,8 @@ pragma solidity ^0.8.19;
  * @dev This contract allows deployment of individual math problems with tracking of student attempts and solutions
  * @custom:version 1.0.0
  */
-contract MathChallenge34 {}
+contract MathChallenge34 {
+/*//////////////////////////////////////////////////////////////
+                                STORAGE
+//////////////////////////////////////////////////////////////*/
+}
