@@ -14,11 +14,11 @@ contract MathChallenge4 {
 
     /// @notice The mathematical problem statement presented to students
     /// @dev Stored as a string to allow complex mathematical expressions and formatting
-    string public problem = "What is 3^5 + 7^2 - 8^1 + 5 + 5?";
+    string public problem = "What is 3^5 + 7^2 - 8^1 + 5 + 7?";
 
     /// @notice The correct numerical answer to the mathematical problem
     /// @dev Immutable to prevent tampering after deployment, ensuring problem integrity
-    uint256 public immutable correctAnswer = 300; // 243 + 49 - 8 + 5 + 5 = 300
+    uint256 public immutable correctAnswer = 302; // 243 + 49 - 8 + 5 + 7 = 302
 
     /// @notice A hint to help students solve the problem
     /// @dev Can be updated by adding a setter function if needed for dynamic hints
