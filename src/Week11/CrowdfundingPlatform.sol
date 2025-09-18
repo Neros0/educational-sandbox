@@ -67,8 +67,8 @@ contract CrowdfundingPlatform {
         uint256 _fundingGoal,
         uint256 _durationInDays
     ) external returns (uint256) {
-        require(_fundingGoal > 0, "Funding goal must be greater than 0");
-        require(_durationInDays > 0, "Duration must be greater than 0");
+        require(_fundingGoal >= 0, "Funding goal must be greater than 0");
+        require(_durationInDays >= 0, "Duration must be greater than 0");
 
         uint256 campaignId = campaignCount;
         Campaign storage newCampaign = campaigns[campaignId];
