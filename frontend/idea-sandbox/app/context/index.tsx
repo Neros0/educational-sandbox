@@ -1,7 +1,7 @@
 "use client";
 
 import { wagmiAdapter, projectId, networks } from "@/app/config";
-import { createAppKit, getAppKit } from "@reown/appkit/react";
+import { createAppKit } from "@reown/appkit/react";
 import { base } from "@reown/appkit/networks";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -40,11 +40,8 @@ function WalletTracker() {
     const [appReady, setAppReady] = useState(false);
 
     useEffect(() => {
-        const kit = getAppKit();
-        if (!kit) return;
-
-        // Wait for AppKit to finish initialization
-        kit.on("ready", () => setAppReady(true));
+        // AppKit is ready immediately after creation
+        if (appKit) setAppReady(true);
     }, []);
 
     useEffect(() => {
@@ -62,7 +59,6 @@ interface ContextProviderProps {
 }
 
 function ContextProvider({ children, cookies }: ContextProviderProps) {
-    // Populate Wagmi initial state from cookies (rehydration)
     const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config, cookies);
 
     return (
