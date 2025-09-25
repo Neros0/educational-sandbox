@@ -10,8 +10,8 @@ import ContextProvider from './context';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Idea Sandbox',
-  description: 'An AI-powered idea generation and brainstorming tool.',
+  title: 'Academic Sandbox',
+  description: 'An AI-powered educational sandbox.',
 };
 
 export default async function RootLayout({
