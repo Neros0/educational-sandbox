@@ -45,6 +45,12 @@ const appKit = createAppKit({
 
 console.log("🎯 AppKit initialized:", !!appKit);
 
+// Expose AppKit to window for debugging and analytics
+if (typeof window !== 'undefined') {
+    (window as any).appkit = appKit;
+    console.log("🪟 AppKit exposed to window");
+}
+
 // Analytics tracker component
 function AnalyticsTracker() {
     const { isConnected, address, chainId } = useAccount();
