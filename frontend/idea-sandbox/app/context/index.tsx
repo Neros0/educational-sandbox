@@ -19,8 +19,8 @@ if (!projectId) {
 const metadata = {
     name: "Idea Sandbox",
     description: "An AI-powered idea generation and brainstorming tool.",
-    url: "https://idea-sandbox.vercel.app",
-    icons: ["https://idea-sandbox.vercel.app/favicon.ico"],
+    url: "https://educational-sandbox.vercel.app/",
+    icons: ["https://educational-sandbox.vercel.app/favicon.ico"],
 };
 
 // 👇 Init AppKit modal + analytics
