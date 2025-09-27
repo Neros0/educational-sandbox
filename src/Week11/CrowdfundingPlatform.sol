@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 contract CrowdfundingPlatform {
-    string private constant VERSION = "1.0.12";
+    string private constant VERSION = "1.0.15";
 
     struct Campaign {
         address payable creator;
