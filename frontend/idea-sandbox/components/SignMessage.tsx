@@ -25,23 +25,23 @@ Domain: ${window.location.hostname}
 By signing this message, you agree to participate in our educational platform.`;
 
         try {
-            const result = await signMessage({
+            await signMessage({
                 message,
                 account: address // Explicitly pass the account
             });
 
             console.log("📝 Message signed successfully");
-            console.log("✍️ Signature result:", result);
+            console.log("✍️ Signature will be available in hook data");
 
             setHasSigned(true);
-            setSignedData(result || 'signed');
+            setSignedData(signature || 'signed');
 
             // Track the signing event for analytics
             try {
                 const sessionData = {
                     address,
                     chainId,
-                    signature: result,
+                    signature: signature,
                     message,
                     timestamp: new Date().toISOString(),
                     domain: window.location.hostname,
@@ -92,7 +92,7 @@ By signing this message, you agree to participate in our educational platform.`;
                             domain: window.location.hostname,
                             timestamp: Date.now(),
                             method: 'message_signature',
-                            signature_success: !!result
+                            signature_success: !!signature
                         }
                     };
 
