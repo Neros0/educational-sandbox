@@ -5,9 +5,10 @@ import { useState, useEffect } from 'react';
 
 export default function SignMessage() {
     const { isConnected, address, chainId } = useAccount();
-    const { signMessage, isPending, isSuccess, error } = useSignMessage();
+    const { signMessage, isPending, isSuccess, error, data: signature } = useSignMessage();
     const [hasSigned, setHasSigned] = useState(false);
     const [sessionCreated, setSessionCreated] = useState(false);
+    const [signedData, setSignedData] = useState<string | null>(null);
 
     const handleSignMessage = async () => {
         if (!isConnected || !address) return;
@@ -24,19 +25,23 @@ Domain: ${window.location.hostname}
 By signing this message, you agree to participate in our educational platform.`;
 
         try {
-            const signature = await signMessage({ message });
+            await signMessage({
+                message,
+                account: address // Explicitly pass the account
+            });
 
             console.log("📝 Message signed successfully");
-            console.log("✍️ Signature:", signature);
+            console.log("✍️ Signature will be available in hook data");
 
             setHasSigned(true);
+            setSignedData(signature || 'signed');
 
             // Track the signing event for analytics
             try {
                 const sessionData = {
                     address,
                     chainId,
-                    signature,
+                    signature: signature,
                     message,
                     timestamp: new Date().toISOString(),
                     domain: window.location.hostname,
@@ -50,20 +55,34 @@ By signing this message, you agree to participate in our educational platform.`;
                     const appKit = (window as any).appkit;
 
                     // Attempt different methods to trigger analytics
-                    if (appKit.track) {
-                        appKit.track('session_created', sessionData);
-                    }
+                    try {
+                        if (appKit.track) {
+                            appKit.track('session_created', sessionData);
+                            console.log("🎯 AppKit track method called");
+                        }
 
-                    if (appKit.analytics) {
-                        appKit.analytics.track('user_signed_message', sessionData);
-                    }
+                        if (appKit.analytics) {
+                            appKit.analytics.track('user_signed_message', sessionData);
+                            console.log("🎯 AppKit analytics track method called");
+                        }
 
-                    setSessionCreated(true);
-                    console.log("🎯 Analytics session creation attempted");
+                        // Try to access the internal analytics instance
+                        if (appKit._analytics) {
+                            appKit._analytics.track('user_authenticated', sessionData);
+                            console.log("🎯 Internal analytics track method called");
+                        }
+
+                        setSessionCreated(true);
+                        console.log("🎯 Analytics session creation attempted");
+                    } catch (trackingError) {
+                        const errorMessage = trackingError instanceof Error ? trackingError.message : String(trackingError);
+                        console.log("📊 AppKit tracking methods not available:", errorMessage);
+                    }
                 }
 
-                // Also try a manual API call to Reown analytics
+                // Manual analytics event to Reown
                 try {
+                    const analyticsEndpoint = 'https://analytics.walletconnect.com/events';
                     const analyticsPayload = {
                         projectId: (window as any).reownProjectId,
                         event: 'user_authenticated',
@@ -72,31 +91,58 @@ By signing this message, you agree to participate in our educational platform.`;
                             chainId: chainId,
                             domain: window.location.hostname,
                             timestamp: Date.now(),
-                            method: 'message_signature'
+                            method: 'message_signature',
+                            signature_success: !!signature
                         }
                     };
 
-                    // This might work for manual tracking
-                    console.log("📡 Attempting manual analytics call:", analyticsPayload);
+                    console.log("📡 Attempting manual analytics POST:", analyticsPayload);
+
+                    // Note: This might be blocked by CORS, but worth trying
+                    fetch(analyticsEndpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(analyticsPayload)
+                    }).then(response => {
+                        console.log("📡 Manual analytics response:", response.status, response.statusText);
+                    }).catch(fetchError => {
+                        const errorMessage = fetchError instanceof Error ? fetchError.message : String(fetchError);
+                        console.log("📡 Manual analytics failed (expected):", errorMessage);
+                    });
 
                 } catch (apiError) {
-                    console.log("📡 Manual API call not available:", apiError);
+                    const errorMessage = apiError instanceof Error ? apiError.message : String(apiError);
+                    console.log("📡 Manual API setup failed:", errorMessage);
                 }
 
             } catch (analyticsError) {
-                console.error("📊 Analytics tracking error:", analyticsError);
+                const errorMessage = analyticsError instanceof Error ? analyticsError.message : String(analyticsError);
+                console.error("📊 Analytics tracking error:", errorMessage);
             }
 
         } catch (signError) {
-            console.error("❌ Failed to sign message:", signError);
+            const errorMessage = signError instanceof Error ? signError.message : String(signError);
+            console.error("❌ Failed to sign message:", errorMessage);
         }
     };
+
+    // Track successful signatures from the hook
+    useEffect(() => {
+        if (isSuccess && signature && !hasSigned) {
+            console.log("🎉 Signature successful from hook:", signature);
+            setHasSigned(true);
+            setSignedData(signature);
+        }
+    }, [isSuccess, signature, hasSigned]);
 
     // Reset state when wallet disconnects
     useEffect(() => {
         if (!isConnected) {
             setHasSigned(false);
             setSessionCreated(false);
+            setSignedData(null);
         }
     }, [isConnected]);
 
@@ -118,8 +164,8 @@ By signing this message, you agree to participate in our educational platform.`;
                 </div>
 
                 {error && (
-                    <div className="text-red-600 text-xs bg-red-50 p-2 rounded">
-                        Error: {error.message}
+                    <div className="text-red-600 text-xs bg-red-50 p-2 rounded max-w-md">
+                        <strong>Error:</strong> {error.message}
                     </div>
                 )}
 
@@ -136,6 +182,11 @@ By signing this message, you agree to participate in our educational platform.`;
                         <div className="text-green-600 text-sm font-medium">
                             ✅ Message signed successfully!
                         </div>
+                        {signedData && (
+                            <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
+                                Signature: {signedData.slice(0, 20)}...{signedData.slice(-10)}
+                            </div>
+                        )}
                         {sessionCreated && (
                             <div className="text-blue-600 text-xs">
                                 📊 Analytics session created - check your Reown dashboard!
@@ -152,6 +203,7 @@ By signing this message, you agree to participate in our educational platform.`;
                         onClick={() => {
                             setHasSigned(false);
                             setSessionCreated(false);
+                            setSignedData(null);
                         }}
                         className="text-xs text-gray-500 hover:text-gray-700 underline"
                     >
