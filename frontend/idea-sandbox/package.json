@@ -19,7 +19,6 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/ms": "^2.1.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -30,6 +29,14 @@
     "@reown/appkit": "1.8.6",
     "@walletconnect/ethereum-provider": {
       "@reown/appkit": "1.8.6"
+    },
+    "@wagmi/connectors": {
+      "@walletconnect/ethereum-provider": {
+        "@reown/appkit": "1.8.6"
+      }
     }
+  },
+  "resolutions": {
+    "@reown/appkit": "1.8.6"
   }
 }
