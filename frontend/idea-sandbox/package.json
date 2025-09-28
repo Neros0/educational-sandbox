@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@reown/appkit": "1.8.6",
-    "@reown/appkit-adapter-wagmi": "1.8.6",
+    "@reown/appkit": "^1.8.6",
+    "@reown/appkit-adapter-wagmi": "^1.8.6",
     "@tanstack/react-query": "^5.89.0",
     "next": "15.5.3",
     "react": "19.1.0",
@@ -24,19 +24,5 @@
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
     "typescript": "^5"
-  },
-  "overrides": {
-    "@reown/appkit": "1.8.6",
-    "@walletconnect/ethereum-provider": {
-      "@reown/appkit": "1.8.6"
-    },
-    "@wagmi/connectors": {
-      "@walletconnect/ethereum-provider": {
-        "@reown/appkit": "1.8.6"
-      }
-    }
-  },
-  "resolutions": {
-    "@reown/appkit": "1.8.6"
   }
 }
