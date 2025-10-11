@@ -20,6 +20,7 @@
     "wagmi": "^2.12.31"
   },
   "devDependencies": {
+    "@types/ms": "^2.1.0",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
