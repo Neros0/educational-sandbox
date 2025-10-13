@@ -1,24 +1,51 @@
-//import { cookieStorage, createStorage, http } from '@wagmi/core'
+// ./src/app/page.tsx
 import { ConnectButton } from "@/components/ConnectButton";
 import { InfoList } from "@/components/InfoList";
 import { ActionButtonList } from "@/components/ActionButtonList";
 import Image from 'next/image';
 
 export default function Home() {
-
   return (
     <div className={"pages"}>
-      <Image src="/reown.svg" alt="Reown" width={150} height={150} priority />
-      <h1>AppKit Wagmi Next.js App Router Example</h1>
+      <Image
+        src="/reown.svg"
+        alt="Reown"
+        width={150}
+        height={150}
+        priority
+      />
+      <h1>Academic Sandbox</h1>
+      <p className="subtitle">Ideas Run while In Here!</p>
 
       <ConnectButton />
       <ActionButtonList />
-      <div className="advice">
-        <p>
-          This projectId only works on localhost. <br />Go to <a href="https://dashboard.reown.com" target="_blank" className="link-button" rel="Reown Dashboard">Reown Dashboard</a> to get your own.
-        </p>
+
+      <div className="info-section">
+        <InfoList />
       </div>
-      <InfoList />
+
+      <footer className="footer">
+        <p>
+          Powered by{' '}
+          <a
+            href="https://reown.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-button"
+          >
+            Reown
+          </a>
+          {' '}and{' '}
+          <a
+            href="https://wagmi.sh"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-button"
+          >
+            Wagmi
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }
