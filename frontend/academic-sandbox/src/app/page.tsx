@@ -2,6 +2,7 @@
 import { ConnectButton } from "@/components/ConnectButton";
 import { InfoList } from "@/components/InfoList";
 import { ActionButtonList } from "@/components/ActionButtonList";
+import { SignMessage } from "@/components/SignMessage";
 import Image from 'next/image';
 
 export default function Home() {
@@ -19,6 +20,10 @@ export default function Home() {
 
       <ConnectButton />
       <ActionButtonList />
+
+      <div className="feature-section">
+        <SignMessage />
+      </div>
 
       <div className="info-section">
         <InfoList />
