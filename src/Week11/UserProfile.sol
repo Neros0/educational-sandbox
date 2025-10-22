@@ -20,4 +20,17 @@ interface IReputationRegistry {
         );
 }
 
+interface IRatingSystem {
+    function getUserStats(address user)
+        external
+        view
+        returns (
+            uint256 totalRatingsGiven,
+            uint256 totalRatingsReceived,
+            uint256 averageGiven,
+            uint256 averageReceived,
+            uint256 lastRatingTime
+        );
+}
+
 contract UserProfile {}
