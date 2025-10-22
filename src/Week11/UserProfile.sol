@@ -38,4 +38,10 @@ interface IRatingSystem {
  * @dev Manages user profiles, metadata, and social interactions
  * @notice This contract handles user registration, profiles, and relationship tracking
  */
-contract UserProfile is Ownable, ReentrancyGuard, Pausable {}
+contract UserProfile is Ownable, ReentrancyGuard, Pausable {
+    // Constants
+    uint256 public constant MAX_BIO_LENGTH = 500;
+    uint256 public constant MAX_USERNAME_LENGTH = 32;
+    uint256 public constant MAX_SKILLS = 20;
+    uint256 public constant MAX_SOCIAL_LINKS = 10;
+}
