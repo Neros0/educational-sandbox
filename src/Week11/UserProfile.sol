@@ -33,4 +33,9 @@ interface IRatingSystem {
         );
 }
 
+/**
+ * @title UserProfile
+ * @dev Manages user profiles, metadata, and social interactions
+ * @notice This contract handles user registration, profiles, and relationship tracking
+ */
 contract UserProfile {}
