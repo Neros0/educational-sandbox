@@ -49,6 +49,19 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     IReputationRegistry public immutable reputationRegistry;
     IRatingSystem public ratingSystem;
 
+    // Storage mappings
+    mapping(address => Profile) public profiles;
+    mapping(string => address) public usernameToAddress;
+    mapping(address => Badge[]) public userBadges;
+    mapping(address => mapping(address => UserRelationship)) public relationships;
+    mapping(address => UserStatistics) public userStatistics;
+    mapping(address => Endorsement[]) public userEndorsements;
+    mapping(address => mapping(string => uint256)) public skillEndorsementCount;
+    mapping(address => address[]) public userFollowers;
+    mapping(address => address[]) public userFollowing;
+    mapping(address => mapping(address => bool)) public isFollowing;
+    mapping(address => mapping(address => bool)) public isBlocked;
+
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
         ratingSystem = IRatingSystem(_ratingSystem);
