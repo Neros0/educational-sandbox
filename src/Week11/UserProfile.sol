@@ -137,6 +137,11 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     mapping(address => mapping(address => bool)) public isFollowing;
     mapping(address => mapping(address => bool)) public isBlocked;
 
+    // Additional tracking
+    address[] private _registeredUsers;
+    mapping(address => bool) public isRegistered;
+    mapping(address => uint256) public registrationIndex;
+
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
         ratingSystem = IRatingSystem(_ratingSystem);
