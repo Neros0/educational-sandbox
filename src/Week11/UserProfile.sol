@@ -45,6 +45,10 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     uint256 public constant MAX_SKILLS = 20;
     uint256 public constant MAX_SOCIAL_LINKS = 10;
 
+    // State variables
+    IReputationRegistry public immutable reputationRegistry;
+    IRatingSystem public ratingSystem;
+
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
         ratingSystem = IRatingSystem(_ratingSystem);
