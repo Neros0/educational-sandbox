@@ -103,6 +103,15 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
         uint256 interactionCount; // Total number of interactions
     }
 
+    struct UserStatistics {
+        uint256 profileViews;
+        uint256 followersCount;
+        uint256 followingCount;
+        uint256 totalInteractions;
+        uint256 badgesCount;
+        uint256 endorsementsReceived;
+    }
+
     // State variables
     IReputationRegistry public immutable reputationRegistry;
     IRatingSystem public ratingSystem;
