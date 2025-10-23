@@ -52,6 +52,13 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
         PRIVATE
     }
 
+    enum UserStatus {
+        ACTIVE,
+        SUSPENDED,
+        BANNED,
+        INACTIVE
+    }
+
     // Structs
     struct Profile {
         string username; // Unique username
