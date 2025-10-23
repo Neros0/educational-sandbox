@@ -94,6 +94,15 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
         bool isActive;
     }
 
+    struct UserRelationship {
+        bool hasInteracted; // Whether users have rated each other
+        bool isFollowing; // Whether user1 follows user2
+        bool isBlocked; // Whether user1 has blocked user2
+        uint256 firstInteraction; // Timestamp of first interaction
+        uint256 lastInteraction; // Timestamp of last interaction
+        uint256 interactionCount; // Total number of interactions
+    }
+
     // State variables
     IReputationRegistry public immutable reputationRegistry;
     IRatingSystem public ratingSystem;
