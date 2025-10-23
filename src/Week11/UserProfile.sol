@@ -84,6 +84,16 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
         uint256 profileVersion; // Version counter for updates
     }
 
+    struct Badge {
+        BadgeType badgeType;
+        string name;
+        string description;
+        string iconURI;
+        uint256 awardedAt;
+        address awardedBy;
+        bool isActive;
+    }
+
     // State variables
     IReputationRegistry public immutable reputationRegistry;
     IRatingSystem public ratingSystem;
