@@ -45,6 +45,13 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     uint256 public constant MAX_SKILLS = 20;
     uint256 public constant MAX_SOCIAL_LINKS = 10;
 
+    // Enums
+    enum ProfileVisibility {
+        PUBLIC,
+        RESTRICTED,
+        PRIVATE
+    }
+
     // Structs
     struct Profile {
         string username; // Unique username
