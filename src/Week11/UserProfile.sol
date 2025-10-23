@@ -59,6 +59,16 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
         INACTIVE
     }
 
+    enum BadgeType {
+        EARLY_ADOPTER,
+        TOP_RATED,
+        TRUSTED_MEMBER,
+        VERIFIED,
+        EXPERT,
+        CONTRIBUTOR,
+        VETERAN
+    }
+
     // Structs
     struct Profile {
         string username; // Unique username
