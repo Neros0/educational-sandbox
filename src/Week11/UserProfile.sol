@@ -45,6 +45,21 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     uint256 public constant MAX_SKILLS = 20;
     uint256 public constant MAX_SOCIAL_LINKS = 10;
 
+    // Structs
+    struct Profile {
+        string username; // Unique username
+        string bio; // User biography
+        string avatarURI; // IPFS hash or URI for avatar
+        string[] skills; // List of skills
+        string[] socialLinks; // Social media links
+        ProfileVisibility visibility; // Profile visibility setting
+        UserStatus status; // Account status
+        uint256 joinDate; // Registration timestamp
+        uint256 lastActiveTime; // Last activity timestamp
+        bool isVerified; // Verified user status
+        uint256 profileVersion; // Version counter for updates
+    }
+
     // State variables
     IReputationRegistry public immutable reputationRegistry;
     IRatingSystem public ratingSystem;
