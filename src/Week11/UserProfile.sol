@@ -44,4 +44,21 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     uint256 public constant MAX_USERNAME_LENGTH = 32;
     uint256 public constant MAX_SKILLS = 20;
     uint256 public constant MAX_SOCIAL_LINKS = 10;
+
+    constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
+        reputationRegistry = IReputationRegistry(_reputationRegistry);
+        ratingSystem = IRatingSystem(_ratingSystem);
+
+        // Initialize available badges
+        availableBadges[BadgeType.EARLY_ADOPTER] = true;
+        availableBadges[BadgeType.TOP_RATED] = true;
+        availableBadges[BadgeType.TRUSTED_MEMBER] = true;
+        availableBadges[BadgeType.VERIFIED] = true;
+        availableBadges[BadgeType.EXPERT] = true;
+        availableBadges[BadgeType.CONTRIBUTOR] = true;
+        availableBadges[BadgeType.VETERAN] = true;
+
+        // Owner is default badge issuer
+        badgeIssuers[_owner] = true;
+    }
 }
