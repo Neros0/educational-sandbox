@@ -112,6 +112,14 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
         uint256 endorsementsReceived;
     }
 
+    struct Endorsement {
+        address endorser;
+        string skill;
+        string comment;
+        uint256 timestamp;
+        bool isActive;
+    }
+
     // State variables
     IReputationRegistry public immutable reputationRegistry;
     IRatingSystem public ratingSystem;
