@@ -11,17 +11,17 @@ export default function Home() {
       {/* Hero Section */}
       <header className="hero-section">
         <div className="logo-container">
-          <Image 
-            src="/reown.svg" 
-            alt="Reown" 
-            width={80} 
-            height={80} 
-            priority 
+          <Image
+            src="/reown.svg"
+            alt="Reown"
+            width={80}
+            height={80}
+            priority
           />
         </div>
-        <h1 className="main-title">AB System</h1>
+        <h1 className="main-title">educational-sandbox</h1>
         <p className="hero-description">
-          A decentralized A/B testing platform built on blockchain technology
+          A decentralized educational-sandbox testing platform built on blockchain technology
         </p>
         <div className="hero-features">
           <div className="feature-badge">🔐 Secure</div>
@@ -34,7 +34,7 @@ export default function Home() {
       <section className="connection-section">
         <h2 className="section-title">Get Started</h2>
         <p className="section-description">
-          Connect your wallet to start using the A/B testing system
+          Connect your wallet to start using the educational-sandbox testing system
         </p>
         <ConnectButton />
         <div className="action-buttons-wrapper">
@@ -74,9 +74,9 @@ export default function Home() {
         <div className="footer-content">
           <p className="footer-text">Built with modern Web3 technologies</p>
           <div className="footer-links">
-            <a 
-              href="https://reown.com" 
-              target="_blank" 
+            <a
+              href="https://reown.com"
+              target="_blank"
               rel="noopener noreferrer"
               className="footer-link"
             >
@@ -84,9 +84,9 @@ export default function Home() {
               Reown
             </a>
             <span className="footer-separator">•</span>
-            <a 
-              href="https://wagmi.sh" 
-              target="_blank" 
+            <a
+              href="https://wagmi.sh"
+              target="_blank"
               rel="noopener noreferrer"
               className="footer-link"
             >
