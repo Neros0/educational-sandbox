@@ -34,7 +34,7 @@ export default function Home() {
       <section className="connection-section">
         <h2 className="section-title">Get Started</h2>
         <p className="section-description">
-          Connect your wallet to start using the educational-sandbox testing system
+          Connect your wallet to start using the educational-sandbox testing platform
         </p>
         <ConnectButton />
         <div className="action-buttons-wrapper">
