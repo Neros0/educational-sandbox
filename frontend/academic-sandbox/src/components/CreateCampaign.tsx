@@ -7,7 +7,7 @@ import { parseEther } from 'viem';
 import { SIMPLE_BRAINSTORM_ADDRESS, SIMPLE_BRAINSTORM_ABI } from '@/config/contract';
 
 export function CreateCampaign() {
-    const { address, isConnected } = useAccount();
+    const { isConnected } = useAccount();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [fundingGoal, setFundingGoal] = useState('');
