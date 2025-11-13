@@ -3,6 +3,7 @@ import { ConnectButton } from "@/components/ConnectButton";
 import { InfoList } from "@/components/InfoList";
 import { ActionButtonList } from "@/components/ActionButtonList";
 import { SignMessage } from "@/components/SignMessage";
+import { CreateCampaign } from "@/components/CreateCampaign";
 import Image from 'next/image';
 
 export default function Home() {
@@ -39,6 +40,20 @@ export default function Home() {
         <ConnectButton />
         <div className="action-buttons-wrapper">
           <ActionButtonList />
+        </div>
+      </section>
+
+      {/* Campaign Creation Section - NEW */}
+      <section className="campaign-section">
+        <div className="feature-card campaign-card">
+          <div className="feature-card-header">
+            <span className="feature-icon">🚀</span>
+            <h2>Create Campaign</h2>
+          </div>
+          <p className="feature-description">
+            Launch a new crowdfunding campaign with blockchain transparency
+          </p>
+          <CreateCampaign />
         </div>
       </section>
 
