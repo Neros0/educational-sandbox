@@ -2,7 +2,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   webpack: config => {
-    config.externals.push('pino-pretty', 'lokijs', 'encoding');
+    config.externals.push(
+      'pino-pretty', 
+      'lokijs', 
+      'encoding', 
+      'porto',
+      '@coinbase/wallet-sdk',
+      '@gemini-wallet/core',
+      '@metamask/sdk',
+      '@walletconnect/ethereum-provider'
+    );
     
     // Add fallbacks for Node.js modules
     config.resolve.fallback = {
