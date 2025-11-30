@@ -20,6 +20,11 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
     IERC20 public immutable asset;
     LPToken public immutable lpToken;
 
+    uint256 public totalDeposits;
+    uint256 public totalBorrows;
+    uint256 public lastUpdateTimestamp;
+    uint256 public borrowIndex;
+
     constructor(address _asset, string memory _name, string memory _symbol) Ownable(msg.sender) {
         asset = IERC20(_asset);
         lpToken = new LPToken(_name, _symbol);
