@@ -16,9 +16,13 @@ import "./LPToken.sol";
 contract LPContract is ILPContract, Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
+    // State variables
+    IERC20 public immutable asset;
+    LPToken public immutable lpToken;
+
     constructor(address _asset, string memory _name, string memory _symbol) Ownable(msg.sender) {
         asset = IERC20(_asset);
-        lpToken = new LendingPoolToken(_name, _symbol);
+        lpToken = new LPToken(_name, _symbol);
         borrowIndex = PRECISION;
         lastUpdateTimestamp = block.timestamp;
     }
