@@ -42,9 +42,9 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
     uint256 public constant BASIS_POINTS = 10000;
     uint256 public constant SECONDS_PER_YEAR = 365 days;
 
-    constructor(address _asset, string memory _name, string memory _symbol) Ownable(msg.sender) {
+    constructor(address _asset) Ownable(msg.sender) {
         asset = IERC20(_asset);
-        lpToken = new LPToken(_name, _symbol);
+        lpToken = new LPToken();
         borrowIndex = PRECISION;
         lastUpdateTimestamp = block.timestamp;
     }
