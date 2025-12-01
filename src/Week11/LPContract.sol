@@ -51,6 +51,17 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
     // User data
     mapping(address => UserInfo) public userInfo;
 
+    // Events
+    event Deposit(address indexed user, uint256 amount, uint256 lpTokens);
+    event Withdraw(address indexed user, uint256 amount, uint256 lpTokens);
+    event DepositCollateral(address indexed user, uint256 amount);
+    event WithdrawCollateral(address indexed user, uint256 amount);
+    event Borrow(address indexed user, uint256 amount);
+    event Repay(address indexed user, uint256 amount);
+    event Liquidation(
+        address indexed liquidator, address indexed borrower, uint256 collateralSeized, uint256 debtRepaid
+    );
+
     constructor(address _asset) Ownable(msg.sender) {
         asset = IERC20(_asset);
         lpToken = new LPToken();
