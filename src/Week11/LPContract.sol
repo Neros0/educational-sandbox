@@ -72,56 +72,56 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
     /**
      * @notice Updates the borrow index based on accrued interest
      */
-    function updateBorrowIndex() public {
-        uint256 timeDelta = block.timestamp - lastUpdateTimestamp;
-        if (timeDelta == 0) return;
+    // function updateBorrowIndex() public {
+    //     uint256 timeDelta = block.timestamp - lastUpdateTimestamp;
+    //     if (timeDelta == 0) return;
 
-        uint256 borrowRate = getBorrowRate();
-        uint256 interestAccrued = (borrowRate * timeDelta * borrowIndex) / (SECONDS_PER_YEAR * BASIS_POINTS);
-        borrowIndex += interestAccrued;
-        lastUpdateTimestamp = block.timestamp;
-    }
+    //     uint256 borrowRate = getBorrowRate();
+    //     uint256 interestAccrued = (borrowRate * timeDelta * borrowIndex) / (SECONDS_PER_YEAR * BASIS_POINTS);
+    //     borrowIndex += interestAccrued;
+    //     lastUpdateTimestamp = block.timestamp;
+    // }
 
-    /**
-     * @notice Deposits assets into the pool and mints LP tokens
-     * @param amount Amount of assets to deposit
-     */
-    function deposit(uint256 amount) external nonReentrant {
-        require(amount > 0, "Amount must be greater than 0");
-        updateBorrowIndex();
+    // /**
+    //  * @notice Deposits assets into the pool and mints LP tokens
+    //  * @param amount Amount of assets to deposit
+    //  */
+    // function deposit(uint256 amount) external nonReentrant {
+    //     require(amount > 0, "Amount must be greater than 0");
+    //     updateBorrowIndex();
 
-        uint256 lpTokensToMint;
-        if (lpToken.totalSupply() == 0) {
-            lpTokensToMint = amount;
-        } else {
-            lpTokensToMint = (amount * lpToken.totalSupply()) / getTotalAssets();
-        }
+    //     uint256 lpTokensToMint;
+    //     if (lpToken.totalSupply() == 0) {
+    //         lpTokensToMint = amount;
+    //     } else {
+    //         lpTokensToMint = (amount * lpToken.totalSupply()) / getTotalAssets();
+    //     }
 
-        asset.safeTransferFrom(msg.sender, address(this), amount);
-        totalDeposits += amount;
-        lpToken.mint(msg.sender, lpTokensToMint);
+    //     asset.safeTransferFrom(msg.sender, address(this), amount);
+    //     totalDeposits += amount;
+    //     lpToken.mint(msg.sender, lpTokensToMint);
 
-        emit Deposit(msg.sender, amount, lpTokensToMint);
-    }
+    //     emit Deposit(msg.sender, amount, lpTokensToMint);
+    // }
 
     /**
      * @notice Withdraws assets from the pool by burning LP tokens
      * @param lpTokenAmount Amount of LP tokens to burn
      */
-    function withdraw(uint256 lpTokenAmount) external nonReentrant {
-        require(lpTokenAmount > 0, "Amount must be greater than 0");
-        require(lpToken.balanceOf(msg.sender) >= lpTokenAmount, "Insufficient LP tokens");
-        updateBorrowIndex();
+    // function withdraw(uint256 lpTokenAmount) external nonReentrant {
+    //     require(lpTokenAmount > 0, "Amount must be greater than 0");
+    //     require(lpToken.balanceOf(msg.sender) >= lpTokenAmount, "Insufficient LP tokens");
+    //     updateBorrowIndex();
 
-        uint256 assetsToWithdraw = (lpTokenAmount * getTotalAssets()) / lpToken.totalSupply();
-        require(asset.balanceOf(address(this)) >= assetsToWithdraw, "Insufficient liquidity");
+    //     uint256 assetsToWithdraw = (lpTokenAmount * getTotalAssets()) / lpToken.totalSupply();
+    //     require(asset.balanceOf(address(this)) >= assetsToWithdraw, "Insufficient liquidity");
 
-        lpToken.burn(msg.sender, lpTokenAmount);
-        totalDeposits -= assetsToWithdraw;
-        asset.safeTransfer(msg.sender, assetsToWithdraw);
+    //     lpToken.burn(msg.sender, lpTokenAmount);
+    //     totalDeposits -= assetsToWithdraw;
+    //     asset.safeTransfer(msg.sender, assetsToWithdraw);
 
-        emit Withdraw(msg.sender, assetsToWithdraw, lpTokenAmount);
-    }
+    //     emit Withdraw(msg.sender, assetsToWithdraw, lpTokenAmount);
+    // }
 
     /**
      * @notice Deposits collateral to enable borrowing
