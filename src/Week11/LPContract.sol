@@ -42,10 +42,97 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
     uint256 public constant BASIS_POINTS = 10000;
     uint256 public constant SECONDS_PER_YEAR = 365 days;
 
+    struct UserInfo {
+        uint256 collateralBalance;
+        uint256 borrowBalance;
+        uint256 borrowIndex;
+    }
+
+    // User data
+    mapping(address => UserInfo) public userInfo;
+
+    // Events
+    event Deposit(address indexed user, uint256 amount, uint256 lpTokens);
+    event Withdraw(address indexed user, uint256 amount, uint256 lpTokens);
+    event DepositCollateral(address indexed user, uint256 amount);
+    event WithdrawCollateral(address indexed user, uint256 amount);
+    event Borrow(address indexed user, uint256 amount);
+    event Repay(address indexed user, uint256 amount);
+    event Liquidation(
+        address indexed liquidator, address indexed borrower, uint256 collateralSeized, uint256 debtRepaid
+    );
+
     constructor(address _asset) Ownable(msg.sender) {
         asset = IERC20(_asset);
         lpToken = new LPToken();
         borrowIndex = PRECISION;
         lastUpdateTimestamp = block.timestamp;
+    }
+
+    /**
+     * @notice Updates the borrow index based on accrued interest
+     */
+    function updateBorrowIndex() public {
+        uint256 timeDelta = block.timestamp - lastUpdateTimestamp;
+        if (timeDelta == 0) return;
+
+        uint256 borrowRate = getBorrowRate();
+        uint256 interestAccrued = (borrowRate * timeDelta * borrowIndex) / (SECONDS_PER_YEAR * BASIS_POINTS);
+        borrowIndex += interestAccrued;
+        lastUpdateTimestamp = block.timestamp;
+    }
+
+    /**
+     * @notice Deposits assets into the pool and mints LP tokens
+     * @param amount Amount of assets to deposit
+     */
+    function deposit(uint256 amount) external nonReentrant {
+        require(amount > 0, "Amount must be greater than 0");
+        updateBorrowIndex();
+
+        uint256 lpTokensToMint;
+        if (lpToken.totalSupply() == 0) {
+            lpTokensToMint = amount;
+        } else {
+            lpTokensToMint = (amount * lpToken.totalSupply()) / getTotalAssets();
+        }
+
+        asset.safeTransferFrom(msg.sender, address(this), amount);
+        totalDeposits += amount;
+        lpToken.mint(msg.sender, lpTokensToMint);
+
+        emit Deposit(msg.sender, amount, lpTokensToMint);
+    }
+
+    /**
+     * @notice Withdraws assets from the pool by burning LP tokens
+     * @param lpTokenAmount Amount of LP tokens to burn
+     */
+    function withdraw(uint256 lpTokenAmount) external nonReentrant {
+        require(lpTokenAmount > 0, "Amount must be greater than 0");
+        require(lpToken.balanceOf(msg.sender) >= lpTokenAmount, "Insufficient LP tokens");
+        updateBorrowIndex();
+
+        uint256 assetsToWithdraw = (lpTokenAmount * getTotalAssets()) / lpToken.totalSupply();
+        require(asset.balanceOf(address(this)) >= assetsToWithdraw, "Insufficient liquidity");
+
+        lpToken.burn(msg.sender, lpTokenAmount);
+        totalDeposits -= assetsToWithdraw;
+        asset.safeTransfer(msg.sender, assetsToWithdraw);
+
+        emit Withdraw(msg.sender, assetsToWithdraw, lpTokenAmount);
+    }
+
+    /**
+     * @notice Deposits collateral to enable borrowing
+     * @param amount Amount of collateral to deposit
+     */
+    function depositCollateral(uint256 amount) external nonReentrant {
+        require(amount > 0, "Amount must be greater than 0");
+
+        asset.safeTransferFrom(msg.sender, address(this), amount);
+        userInfo[msg.sender].collateralBalance += amount;
+
+        emit DepositCollateral(msg.sender, amount);
     }
 }
