@@ -122,4 +122,17 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
 
         emit Withdraw(msg.sender, assetsToWithdraw, lpTokenAmount);
     }
+
+    /**
+     * @notice Deposits collateral to enable borrowing
+     * @param amount Amount of collateral to deposit
+     */
+    function depositCollateral(uint256 amount) external nonReentrant {
+        require(amount > 0, "Amount must be greater than 0");
+
+        asset.safeTransferFrom(msg.sender, address(this), amount);
+        userInfo[msg.sender].collateralBalance += amount;
+
+        emit DepositCollateral(msg.sender, amount);
+    }
 }
