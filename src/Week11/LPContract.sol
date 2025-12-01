@@ -103,4 +103,23 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
 
         emit Deposit(msg.sender, amount, lpTokensToMint);
     }
+
+    /**
+     * @notice Withdraws assets from the pool by burning LP tokens
+     * @param lpTokenAmount Amount of LP tokens to burn
+     */
+    function withdraw(uint256 lpTokenAmount) external nonReentrant {
+        require(lpTokenAmount > 0, "Amount must be greater than 0");
+        require(lpToken.balanceOf(msg.sender) >= lpTokenAmount, "Insufficient LP tokens");
+        updateBorrowIndex();
+
+        uint256 assetsToWithdraw = (lpTokenAmount * getTotalAssets()) / lpToken.totalSupply();
+        require(asset.balanceOf(address(this)) >= assetsToWithdraw, "Insufficient liquidity");
+
+        lpToken.burn(msg.sender, lpTokenAmount);
+        totalDeposits -= assetsToWithdraw;
+        asset.safeTransfer(msg.sender, assetsToWithdraw);
+
+        emit Withdraw(msg.sender, assetsToWithdraw, lpTokenAmount);
+    }
 }
