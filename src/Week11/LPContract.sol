@@ -186,6 +186,10 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
         emit Borrow(msg.sender, amount);
     }
 
+    /**
+     * @notice Repays borrowed assets
+     * @param amount Amount to repay
+     */
     function repay(uint256 amount) external nonReentrant {
         require(amount > 0, "Amount must be greater than 0");
         updateBorrowIndex();
