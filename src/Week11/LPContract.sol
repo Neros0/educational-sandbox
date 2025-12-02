@@ -72,56 +72,56 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
     /**
      * @notice Updates the borrow index based on accrued interest
      */
-    // function updateBorrowIndex() public {
-    //     uint256 timeDelta = block.timestamp - lastUpdateTimestamp;
-    //     if (timeDelta == 0) return;
+    function updateBorrowIndex() public {
+        uint256 timeDelta = block.timestamp - lastUpdateTimestamp;
+        if (timeDelta == 0) return;
 
-    //     uint256 borrowRate = getBorrowRate();
-    //     uint256 interestAccrued = (borrowRate * timeDelta * borrowIndex) / (SECONDS_PER_YEAR * BASIS_POINTS);
-    //     borrowIndex += interestAccrued;
-    //     lastUpdateTimestamp = block.timestamp;
-    // }
+        uint256 borrowRate = getBorrowRate();
+        uint256 interestAccrued = (borrowRate * timeDelta * borrowIndex) / (SECONDS_PER_YEAR * BASIS_POINTS);
+        borrowIndex += interestAccrued;
+        lastUpdateTimestamp = block.timestamp;
+    }
 
     // /**
     //  * @notice Deposits assets into the pool and mints LP tokens
     //  * @param amount Amount of assets to deposit
     //  */
-    // function deposit(uint256 amount) external nonReentrant {
-    //     require(amount > 0, "Amount must be greater than 0");
-    //     updateBorrowIndex();
+    function deposit(uint256 amount) external nonReentrant {
+        require(amount > 0, "Amount must be greater than 0");
+        updateBorrowIndex();
 
-    //     uint256 lpTokensToMint;
-    //     if (lpToken.totalSupply() == 0) {
-    //         lpTokensToMint = amount;
-    //     } else {
-    //         lpTokensToMint = (amount * lpToken.totalSupply()) / getTotalAssets();
-    //     }
+        uint256 lpTokensToMint;
+        if (lpToken.totalSupply() == 0) {
+            lpTokensToMint = amount;
+        } else {
+            lpTokensToMint = (amount * lpToken.totalSupply()) / getTotalAssets();
+        }
 
-    //     asset.safeTransferFrom(msg.sender, address(this), amount);
-    //     totalDeposits += amount;
-    //     lpToken.mint(msg.sender, lpTokensToMint);
+        asset.safeTransferFrom(msg.sender, address(this), amount);
+        totalDeposits += amount;
+        lpToken.mint(msg.sender, lpTokensToMint);
 
-    //     emit Deposit(msg.sender, amount, lpTokensToMint);
-    // }
+        emit Deposit(msg.sender, amount, lpTokensToMint);
+    }
 
     /**
      * @notice Withdraws assets from the pool by burning LP tokens
      * @param lpTokenAmount Amount of LP tokens to burn
      */
-    // function withdraw(uint256 lpTokenAmount) external nonReentrant {
-    //     require(lpTokenAmount > 0, "Amount must be greater than 0");
-    //     require(lpToken.balanceOf(msg.sender) >= lpTokenAmount, "Insufficient LP tokens");
-    //     updateBorrowIndex();
+    function withdraw(uint256 lpTokenAmount) external nonReentrant {
+        require(lpTokenAmount > 0, "Amount must be greater than 0");
+        require(lpToken.balanceOf(msg.sender) >= lpTokenAmount, "Insufficient LP tokens");
+        updateBorrowIndex();
 
-    //     uint256 assetsToWithdraw = (lpTokenAmount * getTotalAssets()) / lpToken.totalSupply();
-    //     require(asset.balanceOf(address(this)) >= assetsToWithdraw, "Insufficient liquidity");
+        uint256 assetsToWithdraw = (lpTokenAmount * getTotalAssets()) / lpToken.totalSupply();
+        require(asset.balanceOf(address(this)) >= assetsToWithdraw, "Insufficient liquidity");
 
-    //     lpToken.burn(msg.sender, lpTokenAmount);
-    //     totalDeposits -= assetsToWithdraw;
-    //     asset.safeTransfer(msg.sender, assetsToWithdraw);
+        lpToken.burn(msg.sender, lpTokenAmount);
+        totalDeposits -= assetsToWithdraw;
+        asset.safeTransfer(msg.sender, assetsToWithdraw);
 
-    //     emit Withdraw(msg.sender, assetsToWithdraw, lpTokenAmount);
-    // }
+        emit Withdraw(msg.sender, assetsToWithdraw, lpTokenAmount);
+    }
 
     /**
      * @notice Deposits collateral to enable borrowing
@@ -134,5 +134,114 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
         userInfo[msg.sender].collateralBalance += amount;
 
         emit DepositCollateral(msg.sender, amount);
+    }
+
+    /**
+     * @notice Withdraws collateral if health factor allows
+     * @param amount Amount of collateral to withdraw
+     */
+    function withdrawCollateral(uint256 amount) external nonReentrant {
+        require(amount > 0, "Amount must be greater than 0");
+        require(userInfo[msg.sender].collateralBalance >= amount, "Insufficient collateral");
+        updateBorrowIndex();
+
+        UserInfo storage user = userInfo[msg.sender];
+        user.collateralBalance -= amount;
+
+        // Check health factor after withdrawal
+        uint256 borrowBalance = getUserBorrowBalance(msg.sender);
+        if (borrowBalance > 0) {
+            require(getHealthFactor(msg.sender) >= PRECISION, "Health factor too low");
+        }
+
+        asset.safeTransfer(msg.sender, amount);
+        emit WithdrawCollateral(msg.sender, amount);
+    }
+
+    /**
+     * @notice Borrows assets against collateral
+     * @param amount Amount to borrow
+     */
+    function borrow(uint256 amount) external nonReentrant {
+        require(amount > 0, "Amount must be greater than 0");
+        require(asset.balanceOf(address(this)) >= amount, "Insufficient liquidity");
+        updateBorrowIndex();
+
+        UserInfo storage user = userInfo[msg.sender];
+
+        // Update user's borrow balance
+        if (user.borrowBalance > 0) {
+            user.borrowBalance = (user.borrowBalance * borrowIndex) / user.borrowIndex;
+        }
+        user.borrowBalance += amount;
+        user.borrowIndex = borrowIndex;
+
+        // Check borrow capacity
+        uint256 maxBorrow = (user.collateralBalance * COLLATERAL_FACTOR) / BASIS_POINTS;
+        require(user.borrowBalance <= maxBorrow, "Insufficient collateral");
+
+        totalBorrows += amount;
+        asset.safeTransfer(msg.sender, amount);
+
+        emit Borrow(msg.sender, amount);
+    }
+
+    /**
+     * @notice Repays borrowed assets
+     * @param amount Amount to repay
+     */
+    function repay(uint256 amount) external nonReentrant {
+        require(amount > 0, "Amount must be greater than 0");
+        updateBorrowIndex();
+
+        UserInfo storage user = userInfo[msg.sender];
+        uint256 currentBorrowBalance = getUserBorrowBalance(msg.sender);
+        require(currentBorrowBalance > 0, "No debt to repay");
+
+        uint256 repayAmount = amount > currentBorrowBalance ? currentBorrowBalance : amount;
+
+        user.borrowBalance = currentBorrowBalance - repayAmount;
+        user.borrowIndex = borrowIndex;
+
+        totalBorrows -= repayAmount;
+        asset.safeTransferFrom(msg.sender, address(this), repayAmount);
+
+        emit Repay(msg.sender, repayAmount);
+    }
+
+    /**
+     * @notice Liquidates an undercollateralized position
+     * @param borrower Address of the borrower to liquidate
+     * @param repayAmount Amount of debt to repay
+     */
+    function liquidate(address borrower, uint256 repayAmount) external nonReentrant {
+        require(borrower != msg.sender, "Cannot liquidate yourself");
+        updateBorrowIndex();
+
+        require(getHealthFactor(borrower) < PRECISION, "Position is healthy");
+
+        UserInfo storage borrowerInfo = userInfo[borrower];
+        uint256 borrowBalance = getUserBorrowBalance(borrower);
+        require(borrowBalance > 0, "No debt to liquidate");
+
+        uint256 maxRepay = (borrowBalance * 5000) / BASIS_POINTS; // Max 50% of debt
+        repayAmount = repayAmount > maxRepay ? maxRepay : repayAmount;
+
+        // Calculate collateral to seize (with liquidation bonus)
+        uint256 collateralToSeize = (repayAmount * (BASIS_POINTS + LIQUIDATION_BONUS)) / BASIS_POINTS;
+        require(borrowerInfo.collateralBalance >= collateralToSeize, "Insufficient collateral");
+
+        // Update borrower's balances
+        borrowerInfo.borrowBalance = borrowBalance - repayAmount;
+        borrowerInfo.borrowIndex = borrowIndex;
+        borrowerInfo.collateralBalance -= collateralToSeize;
+
+        totalBorrows -= repayAmount;
+
+        // Transfer assets
+        asset.safeTransferFrom(msg.sender, address(this), repayAmount);
+        asset.safeTransfer(msg.sender, collateralToSeize);
+
+        emit Liquidation(msg.sender, borrower, collateralToSeize, repayAmount);
     }
 }
