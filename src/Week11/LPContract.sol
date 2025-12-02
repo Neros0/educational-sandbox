@@ -136,6 +136,10 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
         emit DepositCollateral(msg.sender, amount);
     }
 
+    /**
+     * @notice Withdraws collateral if health factor allows
+     * @param amount Amount of collateral to withdraw
+     */
     function withdrawCollateral(uint256 amount) external nonReentrant {
         require(amount > 0, "Amount must be greater than 0");
         require(userInfo[msg.sender].collateralBalance >= amount, "Insufficient collateral");
