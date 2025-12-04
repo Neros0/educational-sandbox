@@ -245,6 +245,10 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
         emit Liquidation(msg.sender, borrower, collateralToSeize, repayAmount);
     }
 
+    /**
+     * @notice Gets the current borrow rate
+     * @return Annual borrow rate in basis points
+     */
     function getBorrowRate() public view returns (uint256) {
         if (totalDeposits == 0) return BASE_RATE;
 
