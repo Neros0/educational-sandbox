@@ -261,4 +261,13 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
             return BASE_RATE + SLOPE1 + (excessUtilization * SLOPE2) / BASIS_POINTS;
         }
     }
+
+    function getSupplyRate() external view returns (uint256) {
+        if (totalDeposits == 0) return 0;
+
+        uint256 borrowRate = getBorrowRate();
+        uint256 utilization = (totalBorrows * BASIS_POINTS) / totalDeposits;
+
+        return (borrowRate * utilization) / BASIS_POINTS;
+    }
 }
