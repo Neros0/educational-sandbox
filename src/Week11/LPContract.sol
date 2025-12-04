@@ -295,6 +295,11 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
         return (userInfo_.borrowBalance * borrowIndex) / userInfo_.borrowIndex;
     }
 
+    /**
+     * @notice Gets a user's health factor (collateral value / borrow value at liquidation threshold)
+     * @param user User address
+     * @return Health factor (1e18 = 100%)
+     */
     function getHealthFactor(address user) public view returns (uint256) {
         uint256 borrowBalance = getUserBorrowBalance(user);
         if (borrowBalance == 0) return type(uint256).max;
