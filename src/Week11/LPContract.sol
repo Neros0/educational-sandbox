@@ -244,4 +244,67 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
 
         emit Liquidation(msg.sender, borrower, collateralToSeize, repayAmount);
     }
+
+    /**
+     * @notice Gets the current borrow rate
+     * @return Annual borrow rate in basis points
+     */
+    function getBorrowRate() public view returns (uint256) {
+        if (totalDeposits == 0) return BASE_RATE;
+
+        uint256 utilization = (totalBorrows * BASIS_POINTS) / totalDeposits;
+
+        if (utilization <= OPTIMAL_UTILIZATION) {
+            return BASE_RATE + (utilization * SLOPE1) / BASIS_POINTS;
+        } else {
+            uint256 excessUtilization = utilization - OPTIMAL_UTILIZATION;
+            return BASE_RATE + SLOPE1 + (excessUtilization * SLOPE2) / BASIS_POINTS;
+        }
+    }
+
+    /**
+     * @notice Gets the current supply rate
+     * @return Annual supply rate in basis points
+     */
+    function getSupplyRate() external view returns (uint256) {
+        if (totalDeposits == 0) return 0;
+
+        uint256 borrowRate = getBorrowRate();
+        uint256 utilization = (totalBorrows * BASIS_POINTS) / totalDeposits;
+
+        return (borrowRate * utilization) / BASIS_POINTS;
+    }
+
+    /**
+     * @notice Gets the total assets in the pool (deposits + accrued interest)
+     * @return Total assets
+     */
+    function getTotalAssets() public view returns (uint256) {
+        return asset.balanceOf(address(this)) + totalBorrows;
+    }
+
+    /**
+     * @notice Gets a user's current borrow balance including accrued interest
+     * @param user User address
+     * @return Current borrow balance
+     */
+    function getUserBorrowBalance(address user) public view returns (uint256) {
+        UserInfo storage userInfo_ = userInfo[user];
+        if (userInfo_.borrowBalance == 0) return 0;
+
+        return (userInfo_.borrowBalance * borrowIndex) / userInfo_.borrowIndex;
+    }
+
+    /**
+     * @notice Gets a user's health factor (collateral value / borrow value at liquidation threshold)
+     * @param user User address
+     * @return Health factor (1e18 = 100%)
+     */
+    function getHealthFactor(address user) public view returns (uint256) {
+        uint256 borrowBalance = getUserBorrowBalance(user);
+        if (borrowBalance == 0) return type(uint256).max;
+
+        uint256 collateralValue = (userInfo[user].collateralBalance * LIQUIDATION_THRESHOLD) / BASIS_POINTS;
+        return (collateralValue * PRECISION) / borrowBalance;
+    }
 }
