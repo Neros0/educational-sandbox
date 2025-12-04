@@ -308,6 +308,10 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
         return (collateralValue * PRECISION) / borrowBalance;
     }
 
+    /**
+     * @notice Gets the utilization rate of the pool
+     * @return Utilization rate in basis points
+     */
     function getUtilizationRate() external view returns (uint256) {
         if (totalDeposits == 0) return 0;
         return (totalBorrows * BASIS_POINTS) / totalDeposits;
