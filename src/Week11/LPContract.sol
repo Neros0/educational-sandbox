@@ -274,4 +274,8 @@ contract LPContract is ILPContract, Ownable, ReentrancyGuard {
 
         return (borrowRate * utilization) / BASIS_POINTS;
     }
+
+    function getTotalAssets() public view returns (uint256) {
+        return asset.balanceOf(address(this)) + totalBorrows;
+    }
 }
