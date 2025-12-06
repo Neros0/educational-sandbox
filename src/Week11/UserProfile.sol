@@ -158,6 +158,7 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     );
     event BadgeAwarded(address indexed user, BadgeType indexed badgeType, address indexed awardedBy, uint256 timestamp);
     event BadgeRevoked(address indexed user, uint256 indexed badgeIndex, address indexed revokedBy);
+    event UserFollowed(address indexed follower, address indexed following);
 
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
