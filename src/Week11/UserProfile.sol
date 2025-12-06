@@ -150,6 +150,9 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     event ProfileCreated(address indexed user, string username, uint256 timestamp);
     event ProfileUpdated(address indexed user, uint256 profileVersion);
     event UsernameChanged(address indexed user, string oldUsername, string newUsername);
+    event ProfileVisibilityChanged(
+        address indexed user, ProfileVisibility oldVisibility, ProfileVisibility newVisibility
+    );
 
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
