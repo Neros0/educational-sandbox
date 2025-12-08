@@ -162,6 +162,7 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     event UserUnfollowed(address indexed follower, address indexed unfollowing);
     event UserBlocked(address indexed blocker, address indexed blocked);
     event UserUnblocked(address indexed blocker, address indexed unblocked);
+    event EndorsementGiven(address indexed endorser, address indexed endorsed, string skill, uint256 timestamp);
 
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
