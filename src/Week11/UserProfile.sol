@@ -167,6 +167,9 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     event ProfileViewed(address indexed viewer, address indexed profileOwner);
     event VerificationStatusChanged(address indexed user, bool isVerified, address indexed verifiedBy);
 
+    // Errors
+    error UserAlreadyRegistered(address user);
+
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
         ratingSystem = IRatingSystem(_ratingSystem);
