@@ -163,6 +163,12 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     event UserBlocked(address indexed blocker, address indexed blocked);
     event UserUnblocked(address indexed blocker, address indexed unblocked);
     event EndorsementGiven(address indexed endorser, address indexed endorsed, string skill, uint256 timestamp);
+    event EndorsementRevoked(address indexed endorser, address indexed endorsed, uint256 indexed endorsementIndex);
+    event ProfileViewed(address indexed viewer, address indexed profileOwner);
+    event VerificationStatusChanged(address indexed user, bool isVerified, address indexed verifiedBy);
+
+    // Errors
+    error UserAlreadyRegistered(address user);
 
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
