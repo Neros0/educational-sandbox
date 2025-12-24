@@ -172,6 +172,7 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     error UserNotRegistered(address user);
     error UsernameAlreadyTaken(string username);
     error InvalidUsername(string username);
+    error InvalidBioLength(uint256 length);
 
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
