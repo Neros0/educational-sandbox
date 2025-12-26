@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 contract SimpleBrainstorm {
-    string constant VERSION = "1.0.38";
+    string constant VERSION = "1.0.40";
 
     struct Campaign {
         address creator;
