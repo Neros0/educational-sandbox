@@ -178,6 +178,7 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     error UnauthorizedAccess();
     error CannotInteractWithSelf();
     error UserIsBlocked();
+    error InvalidBadgeType();
 
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
