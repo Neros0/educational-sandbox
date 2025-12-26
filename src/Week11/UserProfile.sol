@@ -177,6 +177,7 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     error MaxSocialLinksReached(uint256 current, uint256 max);
     error UnauthorizedAccess();
     error CannotInteractWithSelf();
+    error UserIsBlocked();
 
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
