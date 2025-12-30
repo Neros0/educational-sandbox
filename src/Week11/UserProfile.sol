@@ -181,6 +181,7 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     error InvalidBadgeType();
     error UnauthorizedBadgeIssuer();
     error ProfileNotPublic();
+    error InvalidEndorsementIndex();
 
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
