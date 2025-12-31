@@ -184,6 +184,7 @@ contract UserProfile is Ownable, ReentrancyGuard, Pausable {
     error InvalidEndorsementIndex();
     error AlreadyFollowing();
     error NotFollowing();
+    error AlreadyBlocked();
 
     constructor(address _reputationRegistry, address _ratingSystem, address _owner) Ownable(_owner) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
